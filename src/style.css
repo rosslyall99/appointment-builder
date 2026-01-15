@@ -1,0 +1,51 @@
+.wizard-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: sans-serif;
+}
+
+.answer-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #eee;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.answer-btn:hover {
+  background: #ddd;
+}
+
+.back-btn,
+.submit-btn {
+  padding: 0.8rem 1.2rem;
+  margin-top: 1rem;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirm-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.confirm-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto; 
+}
