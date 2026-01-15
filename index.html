@@ -33,12 +33,20 @@
       <!-- QUESTION WITH BUTTON ANSWERS -->
       <div x-show="!isFinal && !current.type">
         <h2 x-text="current.questionText"></h2>
+        <p class="subtext" x-show="current.subtext" x-text="current.subtext" x-html="current.subtext"></p>
 
         <div class="answers">
           <template x-for="answer in current.answers">
-            <button class="answer-btn" @click="handleAnswer(answer)">
-              <span x-text="answer.label"></span>
-            </button>
+            <div class="answer-row">
+              <button class="answer-btn" @click="handleAnswer(answer)">
+                <span x-text="answer.label"></span>
+              </button>
+
+              <!-- Only show info icon if a description is present -->
+              <button class="info-btn" x-show="answer.description" @click="showInfo(answer)">
+                ℹ️
+              </button>
+            </div>
           </template>
         </div>
 
@@ -171,6 +179,36 @@
 
         <button class="back-btn" @click="restart">Start Again</button>
       </div>
+
+      <div x-show="current.type === 'datetime'">
+        <h2 x-text="current.questionText"></h2>
+
+        <div class="answers date-time-container">
+
+          <!-- DATE PICKER -->
+          <label>Date</label>
+          <input type="date" x-model="form.date" :min="new Date().toISOString().split('T')[0]" />
+
+          <!-- TIME PICKER -->
+          <template x-if="form.date">
+            <div style="margin-top: 1rem;">
+              <label>Time</label>
+              <select x-model="form.time">
+                <option value="">Select a time</option>
+                <template x-for="slot in availableTimes" :key="slot">
+                  <option :value="slot" x-text="slot"></option>
+                </template>
+              </select>
+            </div>
+          </template>
+        </div>
+
+        <button class="answer-btn" :disabled="!form.date || !form.time" @click="next(current.next)">
+          Next
+        </button>
+
+        <button class="back-btn" @click="back" x-show="history.length > 0">Back</button>
+      </div>
     </div>
 
     <div x-show="confirmBox.visible" class="confirm-overlay">
@@ -199,31 +237,15 @@
       </div>
     </div>
 
-    <div x-show="current.type === 'datetime'">
-      <h2 x-text="current.questionText"></h2>
 
-      <!-- DATE PICKER -->
-      <label>Date</label>
-      <input type="date" x-model="form.date" :min="new Date().toISOString().split('T')[0]" />
 
-      <!-- TIME PICKER -->
-      <template x-if="form.date">
-        <div style="margin-top: 1rem;">
-          <label>Time</label>
-          <select x-model="form.time">
-            <option value="">Select a time</option>
-            <template x-for="slot in availableTimes" :key="slot">
-              <option :value="slot" x-text="slot"></option>
-            </template>
-          </select>
-        </div>
-      </template>
+    <div x-show="infoModal.visible" class="info-overlay">
+      <div class="info-box">
+        <h3 x-text="infoModal.title"></h3>
+        <p x-text="infoModal.text"></p>
 
-      <button class="answer-btn" :disabled="!form.date || !form.time" @click="next(current.next)">
-        Next
-      </button>
-
-      <button class="back-btn" @click="back" x-show="history.length > 0">Back</button>
+        <button @click="infoModal.visible = false">Close</button>
+      </div>
     </div>
 
   </div>

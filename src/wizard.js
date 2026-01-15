@@ -110,7 +110,7 @@ export function wizard() {
       // Store any data the answer carries
       this.captureAnswerData(answer);
 
-      // Consultation confirmation
+      // 1. Consultation confirmation
       if (answer.hireType === "consultation") {
         this.next(
           answer.next,
@@ -121,13 +121,29 @@ export function wizard() {
         return;
       }
 
-      // Branch selection → map modal
+      // 2. Branch selection → map modal
       if (answer.branch) {
-        this.next(answer.next, null, answer.branch, "confirm");
+        this.next(
+          answer.next,
+          null,
+          answer.branch,
+          "confirm"
+        );
         return;
       }
 
-      // Remeasure / FTO confirmation
+      // 3. Remeasure / Full Try‑On confirmation (reinstated behaviour)
+      if (answer.requiresPreviousMeasurement) {
+        this.next(
+          answer.next,
+          "This service is only available if you have already been measured. Please confirm that you have been measured already.",
+          null,
+          "confirm"
+        );
+        return;
+      }
+
+      // 4. Legacy confirm flag (if you still use it anywhere)
       if (answer.confirm) {
         this.next(
           answer.next,
@@ -138,7 +154,7 @@ export function wizard() {
         return;
       }
 
-      // Normal navigation
+      // 5. Normal navigation
       this.next(answer.next);
     },
 
@@ -347,6 +363,19 @@ export function wizard() {
         console.error(error);
         alert("There was a problem sending your enquiry. Please try again.");
       }
-    }
+    },
+
+    infoModal: {
+      visible: false,
+      title: "",
+      text: ""
+    },
+
+    showInfo(answer) {
+      this.infoModal.title = answer.label;
+      this.infoModal.text = answer.description || "No additional information available.";
+      this.infoModal.visible = true;
+    },
+
   };
 }

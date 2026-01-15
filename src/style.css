@@ -49,3 +49,45 @@
   max-width: 600px;
   margin: 0 auto; 
 }
+
+.answer-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.info-btn:hover {
+  color: #000;
+}
+
+.info-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+}
+
+.date-time-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}

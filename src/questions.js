@@ -3,10 +3,11 @@ export const questions = {
   // START PAGE //
   start: {
     id: "start",
-    questionText: "Are you interested in buying or hiring?",
+    questionText: "Please select the type of appointment you require:",
+    subtext: "<p>You can choose to either hire or purchase.</p><p>If you are interested in hire and purchase, please submit two separate enquiries.</p>",
     answers: [
-      { label: "Hiring", next: "hire_type", mode: "hire" },
-      { label: "Buying", next: "buy_start", mode: "buy" }
+      { label: "Hire", next: "hire_type", mode: "hire" },
+      { label: "Purchase", next: "buy_start", mode: "buy" }
     ]
   },
   // HIRING PATH //
@@ -14,10 +15,11 @@ export const questions = {
   // TYPE OF APPOINTMENT //
   hire_type: {
     id: "hire_type",
-    questionText: "What type of appointment do you require?",
+    questionText: "Please select the type of hire appointment you need.",
+    subtext: "<p>A <b>consultation</b> is a 20 minute appointment where we discuss your requirements but no measurements are taken.</p><p>If you are choosing a <b>measurement</b> appointment, you will be given the option of choosing which type of measurement you require.</p>",
     answers: [
       { label: "Consultation", next: "branch_selection", hireType: "consultation" },
-      { label: "Measurement Appointment", next: "measurement_quantity", hireType: "measurement" }
+      { label: "Measurement", next: "measurement_quantity", hireType: "measurement" }
     ]
   },
 
@@ -25,6 +27,7 @@ export const questions = {
   measurement_quantity: {
     id: "measurement_quantity",
     questionText: "Do you require an appointment for one person or a group of people?",
+    subtext: "<p>There is no maximum number of people you can book for a measurement appointment.</p><p>But please be aware that we are very busy at the weekend, and can't always accomodate large groups.</p>",
     answers: [
       { label: "One person", next: "solo_age" },
       { label: "Group of people", next: "party_numbers" }
@@ -34,7 +37,8 @@ export const questions = {
   // SOLO APPOINTMENT PATH //
   solo_age: {
     id: "solo_age",
-    questionText: "Is the appointment for an adult or a child (under 14)?",
+    questionText: "Is the appointment for an adult or a child?",
+    subtext: "<p>Children are defined as under 14 years of age.</p><p>Our childrens hire prices are determined by the age of the child, not by the size of clothing they wear.</p>",
     answers: [
       { label: "Adult", next: "solo_type", age: "adult" },
       { label: "Child", next: "solo_type", age: "child" }
@@ -43,17 +47,33 @@ export const questions = {
 
   solo_type: {
     id: "solo_type",
-    questionText: "Which type of appointment would you like",
+    questionText: "Please select the type of hire appointment you require:",
+    subtext: "<p>Please click the ℹ️ beside each option for a detailed description of what to expect at the appointment.</p>",
     answers: [
-      { label: "Initial Measurement", next: "branch_selection", type: "initial" },
-      { label: "Remeasure", next: "branch_selection", type: "remeasure", confirm: true },
-      { label: "Full Try On", next: "branch_selection", type: "full_try_on", confirm: true }
+      {
+        label: "Initial Measurement",
+        next: "branch_selection",
+        description: "A full measurement appointment for customers being fitted for the first time."
+      },
+      {
+        label: "Remeasure",
+        next: "branch_selection",
+        description: "A quick appointment to update existing measurements.",
+        requiresPreviousMeasurement: true
+      },
+      {
+        label: "Full Try On",
+        next: "branch_selection",
+        description: "A complete outfit try on before collection or final adjustments.",
+        requiresPreviousMeasurement: true
+      }
     ]
   },
 
   branch_selection: {
     id: "branch_selection",
     questionText: "Which branch would you like to visit?",
+    subtext: "<p>Our City Centre branch is located on St Enoch Square, while our East End branch is in Dennistoun.</p>",
     answers: [
       { label: "City Centre", next: "date_time", branch: "STE" },
       { label: "East End", next: "date_time", branch: "DUK" }
