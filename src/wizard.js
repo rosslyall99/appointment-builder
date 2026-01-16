@@ -244,13 +244,6 @@ export function wizard() {
       if (this.currentId === "buy_items") {
         this.initBuyItems();
       }
-
-      if (this.isFinal) {
-        this.finalData = {
-          title: "Appointment Type",
-          description: "This is a placeholder description for " + this.currentId
-        };
-      }
     },
 
     confirmNo() {
