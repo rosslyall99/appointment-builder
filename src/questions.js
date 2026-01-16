@@ -73,10 +73,40 @@ export const questions = {
   branch_selection: {
     id: "branch_selection",
     questionText: "Which branch would you like to visit?",
-    subtext: "<p>Our City Centre branch is located on St Enoch Square, while our East End branch is in Dennistoun.</p>",
+    subtext: "<p>Please click the ℹ️ beside each option to view branch location.</p>",
     answers: [
-      { label: "City Centre", next: "date_time", branch: "STE" },
-      { label: "East End", next: "date_time", branch: "DUK" }
+      {
+        label: "St Enoch Square",
+        next: "date_time",
+        branchId: "STE",
+        description: `
+          <p>Our St Enoch Square branch is located at…</p>
+          <iframe
+            src="https://www.google.com/maps?q=Slanj+Kilts+St+Enoch+Square+Glasgow&z=15&output=embed"
+            width="100%"
+            height="600"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy">
+          </iframe>
+        `
+      },
+      {
+        label: "Duke Street",
+        next: "date_time",
+        branchId: "DUK",
+        description: `
+          <p>Our Duke Street branch is located at…</p>
+          <iframe
+            src="https://www.google.com/maps?q=Slanj+Kilts+Duke+Street+Glasgow&z=15&output=embed"
+            width="100%"
+            height="600"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy">
+          </iframe>
+        `
+      }
     ]
   },
 

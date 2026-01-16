@@ -34,6 +34,7 @@ export function wizard() {
 
     finalData: null,
     pendingBranchKey: null,
+    formSubmitted: false,
 
     confirmBox: {
       visible: false,
@@ -41,11 +42,6 @@ export function wizard() {
       nextId: null,
       mapUrl: null,
       mode: "confirm"
-    },
-
-    branchMaps: {
-      STE: "https://www.google.com/maps?q=Slanj+Kilts+St+Enoch+Square+Glasgow&z=15&output=embed",
-      DUK: "https://www.google.com/maps?q=Slanj+Kilts+Duke+Street+Glasgow&z=15&output=embed"
     },
 
     /* -------------------------------------------------------
@@ -94,12 +90,18 @@ export function wizard() {
         }
       }
 
-      if (branch === "DUK") {
+    if (branch === "DUK") {
+      // Sunday = 0
+      if (day === 0) {
+        return []; // No times on Sunday
+      }
+
         start = "09:30";
         end = "16:00";
       }
 
-      return this.generateTimeSlots(start, end, 30);
+
+      return this.generateTimeSlots(start, end, 15);
     },
 
     /* -------------------------------------------------------
@@ -114,47 +116,30 @@ export function wizard() {
       if (answer.hireType === "consultation") {
         this.next(
           answer.next,
-          "This appointment is a consultation only. No measurements will be taken — it is simply to show you what we offer.",
-          null,
-          "confirm"
+          "This appointment is a consultation only. No measurements will be taken — it is simply to show you what we offer, and to discuss your requirements.", "confirm"
         );
         return;
       }
 
-      // 2. Branch selection → map modal
-      if (answer.branch) {
-        this.next(
-          answer.next,
-          null,
-          answer.branch,
-          "confirm"
-        );
-        return;
-      }
-
-      // 3. Remeasure / Full Try‑On confirmation (reinstated behaviour)
+      // 2. Remeasure / Full Try‑On confirmation (reinstated behaviour)
       if (answer.requiresPreviousMeasurement) {
         this.next(
           answer.next,
-          "This service is only available if you have already been measured. Please confirm that you have been measured already.",
-          null,
-          "confirm"
+          "This service is only available if you have already been measured. Please confirm that you have been measured already.", "confirm"
         );
         return;
       }
 
-      // 4. Legacy confirm flag (if you still use it anywhere)
+      // 3. Legacy confirm flag (if you still use it anywhere)
       if (answer.confirm) {
         this.next(
           answer.next,
-          "This service is only available if you have already been measured. Please confirm that you have been measured already.",
-          null,
-          "confirm"
+          "This service is only available if you have already been measured. Please confirm that you have been measured already.", "confirm"
         );
         return;
       }
 
-      // 5. Normal navigation
+      // 4. Normal navigation
       this.next(answer.next);
     },
 
@@ -163,25 +148,13 @@ export function wizard() {
       if (answer.hireType) this.form.hireType = answer.hireType;
       if (answer.age) this.form.ageCategory = answer.age;
       if (answer.type) this.form.appointmentType = answer.type;
-      if (answer.branch) this.form.branch = answer.branch;
+      if (answer.branchId) {
+        this.form.branch = answer.branchId;
+      }
     },
 
-    next(nextId, confirmMessage = null, branchKey = null, mode = "confirm") {
+    next(nextId, confirmMessage = null, mode = "confirm") {
       this.history.push(this.currentId);
-
-      // Branch selection modal
-      if (branchKey) {
-        this.pendingBranchKey = branchKey;
-
-        this.confirmBox = {
-          visible: true,
-          message: "Are you sure this is the branch you would like to visit?",
-          nextId,
-          mapUrl: this.branchMaps[branchKey],
-          mode: "confirm"
-        };
-        return;
-      }
 
       // Confirmation modal (remeasure / FTO)
       if (confirmMessage) {
@@ -240,26 +213,48 @@ export function wizard() {
       this.finalData = null;
     },
 
-    submitForm() {
-      alert("Enquiry submitted!");
-      this.restart();
+    async submitForm() {
+      try {
+        const response = await fetch(
+          "https://obibnblucftyzbtzequj.functions.supabase.co/send-appointment-enquiry",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(this.form)
+          }
+        );
+
+        if (!response.ok) throw new Error("Failed to send enquiry");
+
+        // Show success message
+        this.formSubmitted = true;
+
+      } catch (error) {
+        console.error(error);
+        alert("There was a problem sending your enquiry. Please try again.");
+      }
     },
 
     confirmYes() {
       this.confirmBox.visible = false;
 
-      // If this was a branch selection, save it
-      if (this.pendingBranchKey) {
-        this.form.branch = this.pendingBranchKey;
-        this.pendingBranchKey = null;
+      // Move forward WITHOUT pushing history again
+      this.currentId = this.confirmBox.nextId;
+
+      if (this.currentId === "buy_items") {
+        this.initBuyItems();
       }
 
-      this.next(this.confirmBox.nextId);
+      if (this.isFinal) {
+        this.finalData = {
+          title: "Appointment Type",
+          description: "This is a placeholder description for " + this.currentId
+        };
+      }
     },
 
     confirmNo() {
       this.confirmBox.visible = false;
-      this.history.pop();
     },
 
     checkFullTryOnLimit(group) {
@@ -343,39 +338,22 @@ export function wizard() {
       }));
     },
 
-    async submitForm() {
-      try {
-        const response = await fetch(
-          "https://obibnblucftyzbtzequj.functions.supabase.co/send-appointment-enquiry",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.form)
-          }
-        );
-
-        if (!response.ok) throw new Error("Failed to send enquiry");
-
-        alert("Your enquiry has been sent!");
-        this.restart();
-
-      } catch (error) {
-        console.error(error);
-        alert("There was a problem sending your enquiry. Please try again.");
-      }
-    },
-
     infoModal: {
       visible: false,
       title: "",
-      text: ""
+      html: ""
     },
 
     showInfo(answer) {
       this.infoModal.title = answer.label;
-      this.infoModal.text = answer.description || "No additional information available.";
+      this.infoModal.html = answer.description || "No additional information available.";
       this.infoModal.visible = true;
     },
+
+    get selectedDay() {
+      if (!this.form.date) return null;
+      return new Date(this.form.date).getDay(); // 0 = Sunday
+    }
 
   };
 }

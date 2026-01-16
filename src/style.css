@@ -81,7 +81,7 @@
   background: white;
   padding: 1.5rem;
   border-radius: 8px;
-  max-width: 400px;
+  max-width: 600px;
   width: 90%;
 }
 
@@ -90,4 +90,15 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+}
+
+.final-form .form-field {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.success-message {
+  text-align: center;
+  padding: 2rem 1rem;
 }

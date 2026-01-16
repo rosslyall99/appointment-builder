@@ -164,22 +164,45 @@
       </template>
 
       <!-- FINAL SCREEN -->
-      <div x-show="isFinal">
+      <div x-show="isFinal && !formSubmitted">
         <h2 x-text="finalData?.title"></h2>
         <p x-text="finalData?.description"></p>
 
-        <form @submit.prevent="submitForm">
-          <input type="text" x-model="form.name" placeholder="Your Name" required />
-          <input type="email" x-model="form.email" placeholder="Email" required />
-          <input type="text" x-model="form.phone" placeholder="Phone" />
-          <textarea x-model="form.notes" placeholder="Notes"></textarea>
+        <form @submit.prevent="submitForm" class="final-form">
+
+          <div class="form-field">
+            <label>Your Name</label>
+            <input type="text" x-model="form.name" required />
+          </div>
+
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" x-model="form.email" required />
+          </div>
+
+          <div class="form-field">
+            <label>Phone</label>
+            <input type="text" x-model="form.phone" />
+          </div>
+
+          <div class="form-field">
+            <label>Notes</label>
+            <textarea x-model="form.notes"></textarea>
+          </div>
 
           <button type="submit" class="submit-btn">Send Enquiry</button>
         </form>
 
-        <button class="back-btn" @click="restart">Start Again</button>
+        <button class="back-btn" @click="back">Back</button>
       </div>
 
+      <!-- SUCCESS MESSAGE -->
+      <div x-show="formSubmitted" class="success-message">
+        <h2>Thank you!</h2>
+        <p>Your message has been sent successfully.</p>
+      </div>
+
+      <!-- DATE & TIME PICKER QUESTION -->
       <div x-show="current.type === 'datetime'">
         <h2 x-text="current.questionText"></h2>
 
@@ -189,8 +212,14 @@
           <label>Date</label>
           <input type="date" x-model="form.date" :min="new Date().toISOString().split('T')[0]" />
 
-          <!-- TIME PICKER -->
-          <template x-if="form.date">
+          <!-- SUNDAY CLOSED MESSAGE (DUKE STREET ONLY) -->
+          <p x-show="form.branch === 'DUK' && selectedDay === 0"
+            style="color: #b00; margin-top: 1rem; font-weight: 600;">
+            Our Duke Street branch is closed on Sundays.
+          </p>
+
+          <!-- TIME PICKER (HIDDEN ON SUNDAYS FOR DUKE STREET) -->
+          <template x-if="form.date && !(form.branch === 'DUK' && selectedDay === 0)">
             <div style="margin-top: 1rem;">
               <label>Time</label>
               <select x-model="form.time">
@@ -201,58 +230,60 @@
               </select>
             </div>
           </template>
+
         </div>
 
-        <button class="answer-btn" :disabled="!form.date || !form.time" @click="next(current.next)">
+        <!-- NEXT BUTTON (DISABLED ON SUNDAYS FOR DUKE STREET) -->
+        <button class="answer-btn" :disabled="!form.date || !form.time || (form.branch === 'DUK' && selectedDay === 0)"
+          @click="next(current.next)">
           Next
         </button>
 
         <button class="back-btn" @click="back" x-show="history.length > 0">Back</button>
       </div>
-    </div>
 
-    <div x-show="confirmBox.visible" class="confirm-overlay">
-      <div class="confirm-box">
+      <div x-show="confirmBox.visible" class="confirm-overlay">
+        <div class="confirm-box">
 
-        <!-- Optional map -->
-        <template x-if="confirmBox.mapUrl">
-          <iframe :src="confirmBox.mapUrl" width="100%" height="400" style="border:0; margin-bottom: 1rem;"
-            allowfullscreen="" loading="lazy">
-          </iframe>
-        </template>
+          <!-- Optional map -->
+          <template x-if="confirmBox.mapUrl">
+            <iframe :src="confirmBox.mapUrl" width="100%" height="400" style="border:0; margin-bottom: 1rem;"
+              allowfullscreen="" loading="lazy">
+            </iframe>
+          </template>
 
-        <p x-text="confirmBox.message"></p>
+          <p x-text="confirmBox.message"></p>
 
-        <!-- ALERT MODE (single OK button) -->
-        <div x-show="confirmBox.mode === 'alert'">
-          <button @click="confirmBox.visible = false">OK</button>
+          <!-- ALERT MODE (single OK button) -->
+          <div x-show="confirmBox.mode === 'alert'">
+            <button @click="confirmBox.visible = false">OK</button>
+          </div>
+
+          <!-- CONFIRM MODE (Yes / No buttons) -->
+          <div x-show="confirmBox.mode === 'confirm'">
+            <button @click="confirmYes">Yes</button>
+            <button @click="confirmNo">No</button>
+          </div>
+
         </div>
+      </div>
 
-        <!-- CONFIRM MODE (Yes / No buttons) -->
-        <div x-show="confirmBox.mode === 'confirm'">
-          <button @click="confirmYes">Yes</button>
-          <button @click="confirmNo">No</button>
+
+
+      <div x-show="infoModal.visible" class="info-overlay">
+        <div class="info-box">
+          <h3 x-text="infoModal.title"></h3>
+          <div x-html="infoModal.html"></div>
+
+          <button @click="infoModal.visible = false">Close</button>
         </div>
-
       </div>
+
     </div>
 
-
-
-    <div x-show="infoModal.visible" class="info-overlay">
-      <div class="info-box">
-        <h3 x-text="infoModal.title"></h3>
-        <p x-text="infoModal.text"></p>
-
-        <button @click="infoModal.visible = false">Close</button>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- CRITICAL: LOAD YOUR JS BEFORE ALPINE -->
-  <script type="module" src="src/main.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- CRITICAL: LOAD YOUR JS BEFORE ALPINE -->
+    <script type="module" src="src/main.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 </body>
 
