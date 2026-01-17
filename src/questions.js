@@ -7,7 +7,8 @@ export const questions = {
     subtext: "<p>You can choose to either hire or purchase.</p><p>If you are interested in hire and purchase, please submit two separate enquiries.</p>",
     answers: [
       { label: "Hire", next: "hire_type", mode: "hire" },
-      { label: "Purchase", next: "buy_start", mode: "buy" }
+      { label: "Purchase", next: "buy_start", mode: "buy" },
+      { label: "Purchase & Hire", next: "buy_start", mode: "combo" }
     ]
   },
   // HIRING PATH //

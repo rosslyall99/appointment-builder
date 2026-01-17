@@ -144,12 +144,25 @@ export function wizard() {
     },
 
     captureAnswerData(answer) {
-      if (answer.mode) this.form.appointmentMode = answer.mode;
+      if (answer.mode) {
+        this.form.appointmentMode = answer.mode;
+
+        if (answer.mode === "combo") {
+          this.form.appointmentType = "combo";
+        }
+      }
+
       if (answer.hireType) this.form.hireType = answer.hireType;
       if (answer.age) this.form.ageCategory = answer.age;
       if (answer.type) this.form.appointmentType = answer.type;
+
+      // Support BOTH branchSelection and partyBranch
       if (answer.branchId) {
         this.form.branch = answer.branchId;
+      }
+
+      if (answer.branch) {
+        this.form.branch = answer.branch;
       }
     },
 
@@ -168,17 +181,17 @@ export function wizard() {
         return;
       }
 
+      // 🔀 COMBO MODE FLOW OVERRIDES
+      if (this.form.appointmentMode === "combo") {
+        if (this.currentId === "buy_items") {
+          nextId = "hire_type"; // or whatever your hire flow starts with
+        }
+      }
+
       // Normal navigation
       this.currentId = nextId;
       if (nextId === "buy_items") {
         this.initBuyItems();
-      }
-
-      if (this.isFinal) {
-        this.finalData = {
-          title: "Appointment Type",
-          description: "This is a placeholder description for " + nextId
-        };
       }
     },
 
