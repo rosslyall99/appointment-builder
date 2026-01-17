@@ -3,8 +3,9 @@ export const questions = {
   // START PAGE //
   start: {
     id: "start",
-    questionText: "Please select the type of appointment you require:",
-    subtext: "<p>You can choose to either hire or purchase.</p><p>If you are interested in hire and purchase, please submit two separate enquiries.</p>",
+    pageTitle: "Appointment Type",
+    questionText: "Please select the type of appointment you require",
+    subtext: "<p>Hire, Purchase or both? We'll make sure you get the right appointment</p>",
     answers: [
       { label: "Hire", next: "hire_type", mode: "hire" },
       { label: "Purchase", next: "buy_start", mode: "buy" },
@@ -16,11 +17,22 @@ export const questions = {
   // TYPE OF APPOINTMENT //
   hire_type: {
     id: "hire_type",
-    questionText: "Please select the type of hire appointment you need.",
-    subtext: "<p>A <b>consultation</b> is a 20 minute appointment where we discuss your requirements but no measurements are taken.</p><p>If you are choosing a <b>measurement</b> appointment, you will be given the option of choosing which type of measurement you require.</p>",
+    pageTitle: "Hire Appointment",
+    questionText: "Please select the type of hire appointment you require",
+    subtext: "<p>Click the ℹ️ for a description of what each hire type involves</p></p>",
     answers: [
-      { label: "Consultation", next: "branch_selection", hireType: "consultation" },
-      { label: "Measurement", next: "measurement_quantity", hireType: "measurement" }
+      { 
+        label: "Consultation", 
+        next: "branch_selection", 
+        hireType: "consultation", 
+        description: "Consultation Placeholder Text"
+      },
+      { 
+        label: "Measurement", 
+        next: "measurement_quantity", 
+        hireType: "measurement",
+        description: "Measurement Placeholder Text"
+      }
     ]
   },
 
@@ -73,8 +85,9 @@ export const questions = {
 
   branch_selection: {
     id: "branch_selection",
+    pageTitle: "Branch Selection",
     questionText: "Which branch would you like to visit?",
-    subtext: "<p>Please click the ℹ️ beside each option to view branch location.</p>",
+    subtext: "<p>Click the ℹ️ beside each option to view branch location.</p>",
     answers: [
       {
         label: "St Enoch Square",
@@ -113,6 +126,7 @@ export const questions = {
 
   date_time: {
     id: "date_time",
+    pageTitle: "Appointment Date & Time",
     type: "datetime",
     questionText: "Please choose your preferred appointment date and time",
     next: "final_branch"
@@ -155,8 +169,9 @@ export const questions = {
 
   date_time: {
     id: "date_time",
+    pageTitle: "Appointment Date & Time",
     type: "datetime",
-    questionText: "Please choose your preferred appointment date and time",
+    questionText: "Please select preferred appointment date and time",
     next: "final_branch"
   },
 
