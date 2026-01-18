@@ -33,13 +33,12 @@
 
 .question-text {
   font-size: 1.3rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0rem;
+  margin: 0.5rem 0;
   text-align: center;
 }
 
 .subtext {
-  margin: 0;
+  margin: 0.5rem 0;
   font-size: 1rem;
   text-align: center;
 }
@@ -48,7 +47,7 @@
   display: block;
   width: 100%;
   padding: 1rem;
-  margin-top: 1rem;
+  margin: 0.5rem 0;
   background: #007bff;
   color: white;
   border: none;
@@ -139,7 +138,7 @@
 .info-btn {
   background: #007bff;
   color: white;
-  margin-top: 1rem;
+  margin-top: 0rem;
   border: none;
   border-radius: 8px;
   padding: 1rem;
@@ -196,14 +195,13 @@
 .date-time-input {
   display: inline-block;
   width: 100%;
-  padding: 0.5rem;
-  margin: 0.5rem;
+  padding: 1rem;
+  margin: 0.5rem 0;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   background: #fff;
   box-sizing: border-box;
-  appearance: none; /* removes native browser styling */
 }
 
 .date-time-input:hover,
@@ -242,4 +240,82 @@
 .success-message {
   text-align: center;
   padding: 2rem 1rem;
+}
+
+.section {
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  transition: 0.2s ease;
+  margin: 
+}
+
+.section-title {
+  margin: 0.25rem 0;
+  text-align: center;
+}
+
+.section-action {
+  width: 100% ;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.party-type-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.half-width-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.party-type-row label {
+  width: 80px;
+  text-align: right;
+}
+
+.input-with-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input-with-info input {
+  flex: 1;
+  height: 32px;
+  padding: 0 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 80px;
+}
+
+.input-with-info .info-btn{
+  height: 32px;
+  width: 32px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }

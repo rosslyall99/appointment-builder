@@ -101,55 +101,98 @@
                 <div class="wizard-card">
                     <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
                     <h2 class="question-text" x-text="current.questionText"></h2>
+                    <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+
+                    <div x-show="!partyAppointmentsMatch" style="color: red;">
+                        <p>You have requested <strong x-text="form.adults"></strong> adult measurements and
+                            <strong x-text="form.children"></strong> child measurements
+                        </p>
+                        <p>Please assign the
+                            appropriate number of appointment types to continue.</p>
+                    </div>
 
                     <!-- INITIAL -->
                     <div class="section">
-                        <h3>INITIAL MEASUREMENTS</h3>
-                        <label>Adults</label>
-                        <input type="number" min="0" x-model.number="form.partyAppointments.initial.adults" />
-                        <label>Children (under 14)</label>
-                        <input type="number" min="0" x-model.number="form.partyAppointments.initial.children" />
-                        <button @click="
-              form.partyAppointments.initial.adults = form.adults;
-              form.partyAppointments.initial.children = form.children;
-            ">Everyone Initial Measurement</button>
+                        <div class="section-header">
+                            <h4 class="section-title">INITIAL MEASUREMENTS</h4>
+                        </div>
+                        <div class="party-type-row">
+                            <div class="half-width-group">
+                                <div class="input-with-info">
+                                    <label>Adults</label>
+                                    <input class="date-time-input" type="number" min="0"
+                                        x-model.number="form.partyAppointments.initial.adults" />
+                                </div>
+                            </div>
+                            <div class="half-width-group">
+                                <div class="input-with-info">
+                                    <label>Children</label>
+                                    <input class="date-time-input" type="number" min="0"
+                                        x-model.number="form.partyAppointments.initial.children" />
+                                </div>
+                            </div>
+                        </div>
+                        <button class="section-action" @click="
+                                form.partyAppointments.initial.adults = form.adults;
+                                form.partyAppointments.initial.children = form.children;">Everyone in Initial
+                            Measurements</button>
                     </div>
 
                     <!-- REMEASURES -->
                     <div class="section">
-                        <h3>REMEASURES</h3>
-                        <label>Adults</label>
-                        <input type="number" min="0" x-model.number="form.partyAppointments.remeasure.adults" />
-                        <label>Children (under 14)</label>
-                        <input type="number" min="0" x-model.number="form.partyAppointments.remeasure.children" />
-                        <button @click="
-              form.partyAppointments.remeasure.adults = form.adults;
-              form.partyAppointments.remeasure.children = form.children;
-            ">Everyone Remeasure</button>
+                        <div class="section-header">
+                            <h4 class="section-title">REMEASURES</h4>
+                        </div>
+                        <div class="party-type-row">
+                            <div class="half-width-group">
+                                <div class="input-with-info">
+                                    <label>Adults</label>
+                                    <input class="date-time-input" type="number" min="0"
+                                        x-model.number="form.partyAppointments.remeasure.adults" />
+                                </div>
+                            </div>
+                            <div class="half-width-group">
+                                <div class="input-with-info">
+                                    <label>Children</label>
+                                    <input type="number" min="0"
+                                        x-model.number="form.partyAppointments.remeasure.children" />
+                                </div>
+                            </div>
+                        </div>
+                        <button class="section-action" @click="
+                                form.partyAppointments.remeasure.adults = form.adults;
+                                form.partyAppointments.remeasure.children = form.children;">Everyone in
+                            Remeasures</button>
                     </div>
 
                     <!-- FULL TRY ON -->
                     <div class="section">
-                        <h3>FULL TRY ON</h3>
-                        <label>Adults</label>
-                        <input type="number" min="0" x-model.number="form.partyAppointments.fullTryOn.adults"
-                            @input="checkFullTryOnLimit('adults')" />
-                        <label>Children (under 14)</label>
-                        <input type="number" min="0" x-model.number="form.partyAppointments.fullTryOn.children"
-                            @input="checkFullTryOnLimit('children')" />
+                        <div class="section-header">
+                            <h4 class="section-title">FULL TRY ONS</h4>
+                        </div>
+                        <div class="party-type-row">
+                            <div class="half-width-group">
+                                <div class="input-with-info">
+                                    <label>Adults</label> <input type="number" min="0"
+                                        x-model.number="form.partyAppointments.fullTryOn.adults"
+                                        @input="checkFullTryOnLimit('adults')" />
+                                </div>
+                            </div>
+                            <div class="half-width-group">
+                                <div class="input-with-info">
+                                    <label>Children</label>
+                                    <input type="number" min="0"
+                                        x-model.number="form.partyAppointments.fullTryOn.children"
+                                        @input="checkFullTryOnLimit('children')" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div style="margin-top: 1rem;">
                         <button class="answer-btn" :disabled="!partyAppointmentsMatch" @click="handlePartyNext">
                             Next
                         </button>
-
-                        <p x-show="!partyAppointmentsMatch" style="color: red; margin-top: 0.5rem;">
-                            You have chosen <strong x-text="form.adults"></strong> adults and
-                            <strong x-text="form.children"></strong> children — please choose the appropriate number of
-                            appointment
-                            types to continue.
-                        </p>
                     </div>
                 </div>
             </template>

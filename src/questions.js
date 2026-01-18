@@ -5,7 +5,7 @@ export const questions = {
     id: "start",
     pageTitle: "Appointment Type",
     questionText: "Please select the type of appointment you require",
-    subtext: "<p>Hire, Purchase or both? We'll make sure you get the right appointment</p>",
+    subtext: "Hire, Purchase or both? We'll make sure you get the right appointment.",
     answers: [
       { label: "Hire", next: "hire_type", mode: "hire" },
       { label: "Purchase", next: "buy_start", mode: "buy" },
@@ -19,7 +19,7 @@ export const questions = {
     id: "hire_type",
     pageTitle: "Hire Appointment",
     questionText: "Please select the type of hire appointment you require",
-    subtext: "<p>Click the ℹ️ for a description of what each hire type involves</p>",
+    subtext: "Click the ℹ️ for a description of what each hire type involves.",
     answers: [
       { 
         label: "Consultation", 
@@ -155,7 +155,7 @@ export const questions = {
     pageTitle: "Measurement Quantity",
     type: "multi-number",
     questionText: "How many adults and children need measured?",
-    subtext: "<p>Please select the number of adults and children in your group.</p>",
+    subtext: "Please select the number of adults and children in your group.",
     fields: [
       { 
         label: "Adults", 
@@ -171,8 +171,10 @@ export const questions = {
 
   party_type: {
     id: "party_type",
+    pageTitle: "Hire Appointment Types",
     type: "custom-multi-number",
-    questionText: "Which type of appointment would each person like?",
+    questionText: "Please select the type of appointment for each person.",
+    subtext: "Assign the appropriate number of appointment types to match your group.",
     next: "party_branch"
   },
 
