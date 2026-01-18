@@ -116,7 +116,7 @@ export function wizard() {
       if (answer.hireType === "consultation") {
         this.next(
           answer.next,
-          "This appointment is a consultation only. No measurements will be taken — it is simply to show you what we offer, and to discuss your requirements.", "confirm"
+          "<p>This appointment is a consultation only, focused on giving you an overview of what we offer and helping you explore the different outfit styles, tartans, and options available.</p><p>No measurements will be taken during this session — it’s simply an opportunity to discuss your requirements, ask questions, and get guidance from our team before moving on to the next stage.</p><p>Please confirm that you are happy to proceed.</p>", "confirm"
         );
         return;
       }

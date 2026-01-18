@@ -75,10 +75,20 @@
                     <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
                     <h2 class="question-text" x-text="current.questionText"></h2>
 
+                    <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+
                     <template x-for="field in current.fields">
-                        <div class="number-field">
+                        <div class="date-time-row multi-number-row">
                             <label x-text="field.label"></label>
-                            <input type="number" min="0" x-model.number="form[field.model]" class="number-input" />
+
+                            <input type="number" min="0" x-model.number="form[field.model]" class="date-time-input" />
+
+                            <button class="info-btn" x-show="field.description" @click="showInfo({
+                                        label: field.label,
+                                        description: field.description
+                                    })">
+                                i
+                            </button>
                         </div>
                     </template>
 

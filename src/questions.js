@@ -25,13 +25,13 @@ export const questions = {
         label: "Consultation", 
         next: "branch_selection", 
         hireType: "consultation", 
-        description: "Consultation Placeholder Text"
+        description: "<p>A Consultation is a 20-minute appointment where you can explore our outfit options, compare tartans, discuss prices,and get guidance from our team.</p><p>You’ll browse jacket styles, tartans, shoes, and accessories, and ask any questions about building your ideal look.</p><p>This session is mainly for choosing your style, so trying items on isn’t guaranteed. If time allows, a quick measurement may be offered, but accurate sizing is done during a dedicated <strong>Kilt Measurement</strong> appointment.</p><p>After that, we can arrange a <strong>Full Try On</strong> so you can try the full outfit in your chosen tartan and size.</p>"
       },
       { 
         label: "Measurement", 
         next: "measurement_quantity", 
         hireType: "measurement",
-        description: "Measurement Placeholder Text"
+        description: "<p>A Measurement appointment is focused on taking the accurate sizes needed for your kilt hire outfit.</p><p>  You’ll be able to choose from three types of appointment — an <strong>Initial Measurement</strong>, a <strong>Remeasure</strong>, or a <strong>Full Try On</strong> — depending on what stage you’re at.</p><p>  On the next page, you’ll see a full description of each option so you can select the one that suits you best.</p>"
       }
     ]
   },
@@ -40,7 +40,7 @@ export const questions = {
   measurement_quantity: {
     id: "measurement_quantity",
     pageTitle: "Measurement Quantity",
-    questionText: "Do you require an appointment for one person or a group of people?",
+    questionText: "How many people do you require measured?",
     subtext: "<p>There is no maximum number of people you can book for a measurement appointment.</p><p>But please be aware that we are very busy at the weekend, and can't always accomodate large groups.</p>",
     answers: [
       { label: "One person", next: "solo_age" },
@@ -53,7 +53,7 @@ export const questions = {
     id: "solo_age",
     pageTitle: "Adult or Child?",
     questionText: "Is the appointment for an adult or a child?",
-    subtext: "<p>Click the ℹ️ for a description of what each hire type involves</p>",
+    subtext: "<p>Click the ℹ️ for our definition of an adult and a child.</p>",
     answers: [
       { 
         label: "Adult", 
@@ -76,18 +76,18 @@ export const questions = {
       {
         label: "Initial Measurement",
         next: "branch_selection",
-        description: "A full measurement appointment for customers being fitted for the first time."
+        description: "<p>A Kilt Measurement appointment is focused on gathering the accurate sizes needed for your outfit. You won’t be trying on the full ensemble at this stage — this session is purely for fitting and confirming your measurements.</p><p>During your appointment, we’ll size your kilt using a sample garment, fit a jacket and waistcoat to determine the best match, and check your shoe size. These items may not reflect your final tartan, colour, or style — they’re used only to ensure an accurate fit.</p><p>If you’d like to see the full outfit together, we can arrange a separate <strong>Full Try On</strong> once your measurements have been taken. This allows us to prepare the correct sizes and your chosen tartan in advance.</p>"
       },
       {
         label: "Remeasure",
         next: "branch_selection",
-        description: "A quick appointment to update existing measurements.",
+        description: "<p>A Remeasure appointment is designed to double‑check your measurements and ensure your hire outfit will fit comfortably and correctly for your event. You won’t be trying on the full outfit at this stage — this session is focused solely on confirming sizing.</p><p>During your fitting, we’ll remeasure you using our standard process. You’ll be sized for your kilt using a sample garment, try on a jacket and waistcoat to confirm fit, and check your shoe size. These items may not match your final tartan, colour, or style — they’re used only to verify accurate measurements.</p><p>  If you’d prefer to try on the full outfit during this visit, we can convert your booking into a <strong>Full Try On</strong> appointment. Just reply to your confirmation email and we’ll update it for you.</p>.",
         requiresPreviousMeasurement: true
       },
       {
         label: "Full Try On",
         next: "branch_selection",
-        description: "A complete outfit try on before collection or final adjustments.",
+        description: "<p>  A Full Try On appointment lets you try on the complete outfit exactly as you’ll wear it on the day of your event. It’s the ideal way to see how everything looks and feels together and to make sure the fit is just right.</p><p>This service is only available once you’ve already had an <strong>Initial Measurement</strong> appointment, as we use your confirmed sizes to prepare the correct items in advance.</p><p>  During your visit, you’ll try on the full outfit — including your kilt, jacket and waistcoat, shirt, shoes, and accessories — and we’ll check the fit and make any adjustments needed.</p><p>If this is your first visit to Slanj, please select <strong>Initial Measurement</strong> instead.</p>",
         requiresPreviousMeasurement: true
       }
     ]
@@ -152,11 +152,19 @@ export const questions = {
 
   party_numbers: {
     id: "party_numbers",
+    pageTitle: "Measurement Quantity",
     type: "multi-number",
-    questionText: "How many people need measured?",
+    questionText: "How many adults and children need measured?",
+    subtext: "<p>Please select the number of adults and children in your group.</p>",
     fields: [
-      { label: "Adults", model: "adults" },
-      { label: "Children (under 14)", model: "children" }
+      { 
+        label: "Adults", 
+        model: "adults",
+        description: "Adults are defined as 14 years of age and over."},
+      { 
+        label: "Children",
+        model: "children",
+        description: "Children are defined as under 14 years of age.</p><p>Our childrens hire prices are determined by the age of the child, not by the size of clothing they wear." }
     ],
     next: "party_type"
   },
