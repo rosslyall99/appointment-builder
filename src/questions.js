@@ -108,7 +108,7 @@ export const questions = {
           <iframe
             src="https://www.google.com/maps?q=Slanj+Kilts+St+Enoch+Square+Glasgow&z=15&output=embed"
             width="100%"
-            height="600"
+            height="400"
             style="border:0;"
             allowfullscreen=""
             loading="lazy">
@@ -124,7 +124,7 @@ export const questions = {
           <iframe
             src="https://www.google.com/maps?q=Slanj+Kilts+Duke+Street+Glasgow&z=15&output=embed"
             width="100%"
-            height="600"
+            height="400"
             style="border:0;"
             allowfullscreen=""
             loading="lazy">
