@@ -19,7 +19,7 @@ export const questions = {
     id: "hire_type",
     pageTitle: "Hire Appointment",
     questionText: "Please select the type of hire appointment you require",
-    subtext: "<p>Click the ℹ️ for a description of what each hire type involves</p></p>",
+    subtext: "<p>Click the ℹ️ for a description of what each hire type involves</p>",
     answers: [
       { 
         label: "Consultation", 
@@ -39,6 +39,7 @@ export const questions = {
   // HOW MANY PEOPLE NEED MEASURED //
   measurement_quantity: {
     id: "measurement_quantity",
+    pageTitle: "Measurement Quantity",
     questionText: "Do you require an appointment for one person or a group of people?",
     subtext: "<p>There is no maximum number of people you can book for a measurement appointment.</p><p>But please be aware that we are very busy at the weekend, and can't always accomodate large groups.</p>",
     answers: [
@@ -50,16 +51,25 @@ export const questions = {
   // SOLO APPOINTMENT PATH //
   solo_age: {
     id: "solo_age",
+    pageTitle: "Adult or Child?",
     questionText: "Is the appointment for an adult or a child?",
-    subtext: "<p>Children are defined as under 14 years of age.</p><p>Our childrens hire prices are determined by the age of the child, not by the size of clothing they wear.</p>",
+    subtext: "<p>Click the ℹ️ for a description of what each hire type involves</p>",
     answers: [
-      { label: "Adult", next: "solo_type", age: "adult" },
-      { label: "Child", next: "solo_type", age: "child" }
+      { 
+        label: "Adult", 
+        next: "solo_type", 
+        age: "adult",
+        description: "Adults are defined as 14 years of age and over."},
+      { label: "Child", 
+        next: "solo_type", 
+        age: "child", 
+        description: "Children are defined as under 14 years of age.</p><p>Our childrens hire prices are determined by the age of the child, not by the size of clothing they wear.</p>" }
     ]
   },
 
   solo_type: {
     id: "solo_type",
+    pageTitle: "Hire Appointment Type",
     questionText: "Please select the type of hire appointment you require:",
     subtext: "<p>Please click the ℹ️ beside each option for a detailed description of what to expect at the appointment.</p>",
     answers: [
