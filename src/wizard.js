@@ -104,6 +104,37 @@ export function wizard() {
       return this.generateTimeSlots(start, end, 15);
     },
 
+    get selectedDay() {
+      if (!this.form.date) return null;
+      return new Date(this.form.date).getDay(); // 0 = Sunday
+    },
+
+    get dateTimeComplete() {
+      // Must have a date
+      if (!this.form.date) return false;
+
+      // If Duke St on Sunday → invalid, even if time is selected
+      const day = new Date(this.form.date).getDay();
+      if (this.form.branch === "DUK" && day === 0) return false;
+
+      // Must have a time AND availableTimes must not be empty
+      return this.form.time && this.availableTimes.length > 0;
+    },
+
+    get isDukeSunday() {
+      if (!this.form.date || this.form.branch !== "DUK") return false;
+      const day = new Date(this.form.date).getDay();
+      return day === 0;
+    },
+
+    get finalFormComplete() {
+      return (
+        this.form.name?.trim().length > 0 &&
+        this.form.email?.trim().length > 0 &&
+        this.form.phone?.trim().length > 0
+      );
+    },
+
     /* -------------------------------------------------------
      * CORE LOGIC
      * ----------------------------------------------------- */
@@ -354,11 +385,6 @@ export function wizard() {
       this.infoModal.title = answer.label;
       this.infoModal.html = answer.description || "No additional information available.";
       this.infoModal.visible = true;
-    },
-
-    get selectedDay() {
-      if (!this.form.date) return null;
-      return new Date(this.form.date).getDay(); // 0 = Sunday
     }
 
   };

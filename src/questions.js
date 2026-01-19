@@ -5,7 +5,7 @@ export const questions = {
     id: "start",
     pageTitle: "Appointment Type",
     questionText: "Please select the type of appointment you require",
-    subtext: "Hire, Purchase or both? We'll make sure you get the right appointment.",
+    subtext: "Hire, Purchase or a combination of both?",
     answers: [
       { label: "Hire", next: "hire_type", mode: "hire" },
       { label: "Purchase", next: "buy_start", mode: "buy" },
@@ -31,7 +31,7 @@ export const questions = {
         label: "Measurement", 
         next: "measurement_quantity", 
         hireType: "measurement",
-        description: "<p>A Measurement appointment is focused on taking the accurate sizes needed for your kilt hire outfit.</p><p>  You’ll be able to choose from three types of appointment — an <strong>Initial Measurement</strong>, a <strong>Remeasure</strong>, or a <strong>Full Try On</strong> — depending on what stage you’re at.</p><p>  On the next page, you’ll see a full description of each option so you can select the one that suits you best.</p>"
+        description: "<p>A Measurement appointment is focused on taking the accurate sizes needed for your kilt hire outfit.</p><p>You’ll be able to choose from three types of appointment — an <strong>Initial Measurement</strong>, a <strong>Remeasure</strong>, or a <strong>Full Try On</strong> — depending on what stage you’re at.</p><p>On the next two pages, you’ll see a full description of each option so you can select the one that suits you best.</p>"
       }
     ]
   },
@@ -41,7 +41,7 @@ export const questions = {
     id: "measurement_quantity",
     pageTitle: "Measurement Quantity",
     questionText: "How many people do you require measured?",
-    subtext: "<p>There is no maximum number of people you can book for a measurement appointment.</p><p>But please be aware that we are very busy at the weekend, and can't always accomodate large groups.</p>",
+    subtext: "There is no maximum number for group measurement appointments.",
     answers: [
       { label: "One person", next: "solo_age" },
       { label: "Group of people", next: "party_numbers" }
@@ -97,7 +97,7 @@ export const questions = {
     id: "branch_selection",
     pageTitle: "Branch Selection",
     questionText: "Which branch would you like to visit?",
-    subtext: "<p>Click the ℹ️ beside each option to view branch location.</p>",
+    subtext: "Click the ℹ️ beside each option to view branch location.",
     answers: [
       {
         label: "St Enoch Square",
@@ -173,17 +173,49 @@ export const questions = {
     id: "party_type",
     pageTitle: "Hire Appointment Types",
     type: "custom-multi-number",
-    questionText: "Please select the type of appointment for each person.",
-    subtext: "Assign the appropriate number of appointment types to match your group.",
+    questionText: "Please choose an appointment for each person.",
+    subtext: "The numbers must match the numbers in your group.",
     next: "party_branch"
   },
 
   party_branch: {
     id: "party_branch",
+    pageTitle: "Branch Selection",
     questionText: "Which branch would you like to visit?",
+    subtext: "Click the ℹ️ beside each option to view branch location.",
     answers: [
-      { label: "City Centre", next: "date_time", branch: "STE" },
-      { label: "East End", next: "date_time", branch: "DUK" }
+      {
+        label: "St Enoch Square",
+        next: "date_time",
+        branchId: "STE",
+        description: `
+          <p>Our St Enoch Square branch is located at…</p>
+          <iframe
+            src="https://www.google.com/maps?q=Slanj+Kilts+St+Enoch+Square+Glasgow&z=15&output=embed"
+            width="100%"
+            height="400"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy">
+          </iframe>
+        `
+      },
+      {
+        label: "Duke Street",
+        next: "date_time",
+        branchId: "DUK",
+        description: `
+          <p>Our Duke Street branch is located at…</p>
+          <iframe
+            src="https://www.google.com/maps?q=Slanj+Kilts+Duke+Street+Glasgow&z=15&output=embed"
+            width="100%"
+            height="400"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy">
+          </iframe>
+        `
+      }
     ]
   },
 
@@ -192,6 +224,7 @@ export const questions = {
     pageTitle: "Appointment Date & Time",
     type: "datetime",
     questionText: "Please select preferred appointment date and time",
+    subtext: "Our Duke Street store is closed on Sundays. Last appointment is 30 minutes before closing time.",
     next: "final_branch"
   },
 

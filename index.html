@@ -62,10 +62,7 @@
                 <div class="wizard-card">
                     <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
                     <h2 class="question-text" x-text="current.questionText"></h2>
-
                     <input type="number" min="0" x-model.number="form[current.model]" class="number-input" />
-
-                    <button class="answer-btn" @click="next(current.next)">Continue</button>
                 </div>
             </template>
 
@@ -91,8 +88,6 @@
                             </button>
                         </div>
                     </template>
-
-                    <button class="answer-btn" @click="next(current.next)">Continue</button>
                 </div>
             </template>
 
@@ -103,12 +98,11 @@
                     <h2 class="question-text" x-text="current.questionText"></h2>
                     <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
 
-                    <div x-show="!partyAppointmentsMatch" style="color: red;">
+                    <div x-show="!partyAppointmentsMatch" class="alert-message">
                         <p>You have requested <strong x-text="form.adults"></strong> adult measurements and
-                            <strong x-text="form.children"></strong> child measurements
+                            <strong x-text="form.children"></strong> child measurements.
                         </p>
-                        <p>Please assign the
-                            appropriate number of appointment types to continue.</p>
+                        <p>Please assign the correct number of appointment types to continue.</p>
                     </div>
 
                     <!-- INITIAL -->
@@ -188,12 +182,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div style="margin-top: 1rem;">
-                        <button class="answer-btn" :disabled="!partyAppointmentsMatch" @click="handlePartyNext">
-                            Next
-                        </button>
-                    </div>
                 </div>
             </template>
 
@@ -231,32 +219,31 @@
             <!-- STEP: FINAL FORM -->
             <template x-if="isFinal && !formSubmitted">
                 <div class="wizard-card">
-                    <h2 class="wizard-page-title" x-text="finalData?.title"></h2>
-                    <p x-text="finalData?.description"></p>
+                    <h2 class="wizard-page-title">Contact Details</h2>
+                    <p class="question-text">Please fill in your contact details.</p>
+                    <p class="subtext">Once submitted, we will contact you to confirm your appointment.</p>
 
-                    <form @submit.prevent="submitForm" class="final-form">
+                    <form @submit.prevent="submitForm" class="final-form" x-ref="finalForm">
 
-                        <div class="form-field">
-                            <label>Your Name</label>
-                            <input type="text" x-model="form.name" required />
+                        <div class="date-time-row">
+                            <label>Name</label>
+                            <input class="date-time-input" type="text" x-model="form.name" required />
                         </div>
 
-                        <div class="form-field">
+                        <div class="date-time-row">
                             <label>Email</label>
-                            <input type="email" x-model="form.email" required />
+                            <input class="date-time-input" type="email" x-model="form.email" required />
                         </div>
 
-                        <div class="form-field">
+                        <div class="date-time-row">
                             <label>Phone</label>
-                            <input type="text" x-model="form.phone" />
+                            <input class="date-time-input" type="text" x-model="form.phone" />
                         </div>
 
-                        <div class="form-field">
+                        <div class="date-time-row">
                             <label>Notes</label>
-                            <textarea x-model="form.notes"></textarea>
+                            <textarea class="date-time-input" x-model="form.notes"></textarea>
                         </div>
-
-                        <button type="submit" class="submit-btn">Send Enquiry</button>
                     </form>
                 </div>
             </template>
@@ -274,6 +261,10 @@
                 <div class="wizard-card">
                     <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
                     <h2 class="question-text" x-text="current.questionText"></h2>
+                    <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+                    <div class="alert-message">
+                        <p x-show="isDukeSunday">Our Duke Street store is closed on Sundays.</p>
+                    </div>
 
                     <div class="date-time-container">
 
@@ -295,12 +286,6 @@
                             </div>
                         </template>
                     </div>
-
-                    <button class="answer-btn"
-                        :disabled="!form.date || !form.time || (form.branch === 'DUK' && selectedDay === 0)"
-                        @click="next(current.next)">
-                        Next
-                    </button>
                 </div>
             </template>
 
@@ -340,6 +325,31 @@
             <div class="button-group-wrapper">
                 <div class="button-group" x-show="history.length > 0 && !infoModal.visible && !confirmBox.visible">
                     <button class="back-btn" @click="back()">← Back</button>
+                    <template x-if="['number','multi-number','custom-multi-number','datetime'].includes(current.type)">
+                        <button class="submit-btn" :disabled="
+                                (current.type === 'custom-multi-number' && !partyAppointmentsMatch) ||
+                                (current.type === 'datetime' && !dateTimeComplete)
+                            " :class="{
+                                'disabled-btn':
+                                    (current.type === 'custom-multi-number' && !partyAppointmentsMatch) ||
+                                    (current.type === 'datetime' && !dateTimeComplete)
+                            }" @click="
+                                (
+                                    (current.type === 'custom-multi-number' && partyAppointmentsMatch) ||
+                                    (current.type === 'datetime' && dateTimeComplete) ||
+                                    (current.type !== 'custom-multi-number' && current.type !== 'datetime')
+                                ) && next(current.next)
+                            ">
+                            Next →
+                        </button>
+                    </template>
+                    <template x-if="isFinal && !formSubmitted">
+                        <button class="submit-btn" :disabled="!finalFormComplete"
+                            :class="{ 'disabled-btn': !finalFormComplete }"
+                            @click="finalFormComplete && $refs.finalForm.requestSubmit()">
+                            Send Enquiry
+                        </button>
+                    </template>
                 </div>
             </div>
 
