@@ -200,11 +200,17 @@
   width: 100%;
   padding: 1rem;
   margin: 0.5rem 0;
+
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   background: #fff;
   box-sizing: border-box;
+}
+
+.textarea {
+  font-family: "Inter", sans-serif;
+  width: 100%;
 }
 
 .date-time-input:hover,
@@ -336,4 +342,26 @@
 .date-time-row label {
   display: inline-block;
   width: 100px; 
+}
+
+.buy-item-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.buy-item-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.buy-item-top label {
+  width: 100px;
+  font-weight: 500;
+}
+
+.buy-item-details {
+  width: 100%;
 }

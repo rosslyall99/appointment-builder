@@ -53,7 +53,7 @@ export const questions = {
     id: "solo_age",
     pageTitle: "Adult or Child?",
     questionText: "Is the appointment for an adult or a child?",
-    subtext: "<p>Click the ℹ️ for our definition of an adult and a child.</p>",
+    subtext: "Click the ℹ️ for our definition of an adult and a child.",
     answers: [
       { 
         label: "Adult", 
@@ -71,7 +71,7 @@ export const questions = {
     id: "solo_type",
     pageTitle: "Hire Appointment Type",
     questionText: "Please select the type of hire appointment you require:",
-    subtext: "<p>Please click the ℹ️ beside each option for a detailed description of what to expect at the appointment.</p>",
+    subtext: "Please click the ℹ️ beside each option for a detailed description of what to expect at the appointment.",
     answers: [
       {
         label: "Initial Measurement",
@@ -231,7 +231,9 @@ export const questions = {
   // BUYING PATH //
   buy_start: {
     id: "buy_start",
-    questionText: "How many people need measured for buying?",
+    pageTitle: "Purchase Quantity",
+    questionText: "How many people purchasing need measured?",
+    subtext: "Please include adults and children.",
     type: "number",
     model: "buyCount",
     next: "buy_items"
@@ -239,7 +241,9 @@ export const questions = {
 
   buy_items: {
     id: "buy_items",
+    pageTitle: "Purchase Items",
     questionText: "What is each person buying?",
+    subtext: "Please select the items each person is purchasing.",
     type: "buy-multi",
     next: "branch_selection"
   }

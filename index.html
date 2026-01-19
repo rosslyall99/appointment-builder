@@ -62,7 +62,8 @@
                 <div class="wizard-card">
                     <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
                     <h2 class="question-text" x-text="current.questionText"></h2>
-                    <input type="number" min="0" x-model.number="form[current.model]" class="number-input" />
+                    <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+                    <input type="number" min="0" x-model.number="form[current.model]" class="date-time-input" />
                 </div>
             </template>
 
@@ -190,29 +191,29 @@
                 <div class="wizard-card">
                     <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
                     <h2 class="question-text" x-text="current.questionText"></h2>
+                    <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
 
                     <template x-for="i in form.buyCount" :key="i">
-                        <div class="buy-item">
-                            <label>Person <span x-text="i"></span></label>
+                        <div class="buy-item-row">
+                            <div class="buy-item-top">
+                                <label>Person <span x-text="i"></span></label>
+                                <select class="date-time-input" x-model="form.buyItems[i - 1].type"
+                                    @change="ensureBuyItem(i - 1)">
+                                    <option value="">Select an item</option>
+                                    <option value="kilt">Kilt only</option>
+                                    <option value="outfit">Kilt outfit</option>
+                                    <option value="great_kilt">Great kilt</option>
+                                    <option value="trousers">Trousers</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
 
-                            <select x-model="form.buyItems[i - 1].type" @change="ensureBuyItem(i - 1)">
-                                <option value="">Select an item</option>
-                                <option value="kilt">Kilt only</option>
-                                <option value="outfit">Kilt outfit</option>
-                                <option value="great_kilt">Great kilt</option>
-                                <option value="trousers">Trousers</option>
-                                <option value="other">Other</option>
-                            </select>
-
-                            <textarea x-show="form.buyItems[i - 1]?.type === 'other'"
-                                x-model="form.buyItems[i - 1].details"
-                                placeholder="Please describe the item"></textarea>
+                            <div x-show="form.buyItems[i - 1]?.type === 'other'" class="buy-item-details">
+                                <textarea x-model="form.buyItems[i - 1].details" placeholder="Please describe the item"
+                                    class="date-time-input"></textarea>
+                            </div>
                         </div>
                     </template>
-
-                    <button class="answer-btn" :disabled="!buyItemsComplete" @click="next(current.next)">
-                        Next
-                    </button>
                 </div>
             </template>
 
@@ -348,6 +349,13 @@
                             :class="{ 'disabled-btn': !finalFormComplete }"
                             @click="finalFormComplete && $refs.finalForm.requestSubmit()">
                             Send Enquiry
+                        </button>
+                    </template>
+                    <template x-if="current.type === 'buy-multi' && form.buyItems.length === form.buyCount">
+                        <button class="submit-btn" :disabled="!buyItemsComplete"
+                            :class="{ 'disabled-btn': !buyItemsComplete }"
+                            @click="buyItemsComplete && next(current.next)">
+                            Next
                         </button>
                     </template>
                 </div>
