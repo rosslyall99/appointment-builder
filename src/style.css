@@ -9,8 +9,8 @@
 .wizard-card {
     width: 100%;
     box-sizing: border-box;
-    background: #fff;
-    border: 1px solid #ccc;
+    background: #dddddda8;
+    border: 1px solid #000;
     border-radius: 8px;
     box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
     padding: 2rem;
@@ -25,11 +25,11 @@
   margin: 0.5rem 0;
   font-size: 1.3rem;
   padding: 0.5rem;
-  color: #ffffff;
+  color: #000;
   text-align: center;
-  border: 1px solid #ccc;
+  border: 1px solid #000;
   border-radius: 8px;
-  background: #007bff;
+  background: #fff
 }
 
 .question-text {
@@ -41,7 +41,7 @@
 
 .subtext {
   margin-top: 0rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   font-size: 1rem;
   font-weight: 400;
   text-align: center;
@@ -51,13 +51,14 @@
   display: block;
   width: 100%;
   padding: 1rem;
-  margin: 0.5rem 0;
+  margin: 0.25rem 0;
   background: #007bff;
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 1.3rem;
   cursor: pointer;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .answer-btn:hover {
@@ -77,12 +78,12 @@
 
 .button-group {
   pointer-events: auto;
-  width: 92%;
+  width: 100%;
   max-width: 600px;
   padding: 1rem;
   box-sizing: border-box;
-  background: #fff;
-  border: 1px solid #ccc;
+  background: #dddddda8;
+  border: 1px solid #000;
   border-radius: 8px;
   box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
   transition: 0.2s ease;
@@ -130,6 +131,7 @@
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .answer-row {
@@ -152,6 +154,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .info-btn:hover {
@@ -193,6 +196,7 @@
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .date-time-input {
@@ -200,12 +204,12 @@
   width: 100%;
   padding: 1rem;
   margin: 0.5rem 0;
-
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #000;
   border-radius: 6px;
   background: #fff;
   box-sizing: border-box;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .textarea {
@@ -254,7 +258,7 @@
 .section {
   box-sizing: border-box;
   background: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #000;
   border-radius: 8px;
   box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
   padding: 0.5rem;
@@ -276,6 +280,7 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .party-type-row {
@@ -308,7 +313,7 @@
   height: 32px;
   padding: 0 0.5rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #000;
   border-radius: 6px;
   width: 80px;
 }
@@ -364,4 +369,55 @@
 
 .buy-item-details {
   width: 100%;
+}
+
+.home-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.confirmation-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #f8f8f8;
+  padding: 1rem;
+  z-index: 100;
+}
+
+.confirmation-footer .button-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.button-group .submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px; /* match SVG container height */
+  padding: 0 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.button-group .submit-btn svg {
+  height: 24px;
+  width: 24px;
+}
+
+.submit-btn:hover,
+.submit-btn:focus {
+  background-color: #0056b3;
 }

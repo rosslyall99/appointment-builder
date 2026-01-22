@@ -135,6 +135,35 @@ export function wizard() {
       );
     },
 
+    resetFormAndStart() {
+      this.formSubmitted = false;
+      this.history = [];
+      this.currentId = "start";   // ← this is the correct reset
+
+      this.form = {
+        appointmentMode: "",
+        hireType: "",
+        name: "",
+        email: "",
+        phone: "",
+        notes: "",
+        adults: 0,
+        children: 0,
+        ageCategory: "",
+        appointmentType: "",
+        branch: "",
+        partyAppointments: {
+          initial: { adults: 0, children: 0 },
+          remeasure: { adults: 0, children: 0 },
+          fullTryOn: { adults: 0, children: 0 }
+        },
+        date: "",
+        time: "",
+        buyCount: 1,
+        buyItems: []
+      };
+    },
+
     /* -------------------------------------------------------
      * CORE LOGIC
      * ----------------------------------------------------- */

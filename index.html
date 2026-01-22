@@ -242,7 +242,7 @@
                         </div>
 
                         <div class="date-time-row">
-                            <label>Notes</label>
+                            <label>Comments</label>
                             <textarea class="date-time-input" x-model="form.notes"></textarea>
                         </div>
                     </form>
@@ -324,7 +324,8 @@
 
             <!-- FIXED BACK BUTTON -->
             <div class="button-group-wrapper">
-                <div class="button-group" x-show="history.length > 0 && !infoModal.visible && !confirmBox.visible">
+                <div class="button-group"
+                    x-show="!formSubmitted && history.length > 0 && !infoModal.visible && !confirmBox.visible">
                     <button class="back-btn" @click="back()">← Back</button>
                     <template x-if="['number','multi-number','custom-multi-number','datetime'].includes(current.type)">
                         <button class="submit-btn" :disabled="
@@ -360,7 +361,20 @@
                     </template>
                 </div>
             </div>
+            <template x-if="formSubmitted">
+                <div class="confirmation-footer">
+                    <div class="button-group">
+                        <button class="submit-btn" @click="resetFormAndStart()">Submit Another</button>
 
+                        <a href="https://www.slanjkilts.com" class="submit-btn home-btn" rel="noopener">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                                viewBox="0 0 24 24">
+                                <path d="M3 9.75L12 3l9 6.75V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.75z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </template>
         </div>
 
         <script type="module" src="src/main.js"></script>
