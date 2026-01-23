@@ -87,7 +87,7 @@ export const questions = {
       {
         label: "Full Try On",
         next: "branch_selection",
-        description: "<p>  A Full Try On appointment lets you try on the complete outfit exactly as you’ll wear it on the day of your event. It’s the ideal way to see how everything looks and feels together and to make sure the fit is just right.</p><p>This service is only available once you’ve already had an <strong>Initial Measurement</strong> appointment, as we use your confirmed sizes to prepare the correct items in advance.</p><p>  During your visit, you’ll try on the full outfit — including your kilt, jacket and waistcoat, shirt, shoes, and accessories — and we’ll check the fit and make any adjustments needed.</p><p>If this is your first visit to Slanj, please select <strong>Initial Measurement</strong> instead.</p>",
+        description: "<p>A Full Try On appointment lets you try on the complete outfit exactly as you’ll wear it on the day of your event. It’s the ideal way to see how everything looks and feels together and to make sure the fit is just right.</p><p>This service is only available once you’ve already had an <strong>Initial Measurement</strong> appointment, as we use your confirmed sizes to prepare the correct items in advance.</p><p>  During your visit, you’ll try on the full outfit — including your kilt, jacket and waistcoat, shirt, shoes, and accessories — and we’ll check the fit and make any adjustments needed.</p><p>If this is your first visit to Slanj, please select <strong>Initial Measurement</strong> instead.</p>",
         requiresPreviousMeasurement: true
       }
     ]
@@ -173,8 +173,8 @@ export const questions = {
     id: "party_type",
     pageTitle: "Hire Appointment Types",
     type: "custom-multi-number",
-    questionText: "Please choose an appointment for each person.",
-    subtext: "The numbers must match the numbers in your group.",
+    questionText: "Please choose appointment types for each person.",
+    subtext: "The numbers must match the numbers in your group<br>Click the ℹ️ for a definition of each appointment type.",
     next: "party_branch"
   },
 

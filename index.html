@@ -109,7 +109,13 @@
                     <!-- INITIAL -->
                     <div class="section">
                         <div class="section-header">
-                            <h4 class="section-title">INITIAL MEASUREMENTS</h4>
+                            <h4 class="section-title">
+                                INITIAL MEASUREMENTS
+                                <button class="info-btn-sm" @click="showInfo({
+            label: 'Initial Measurements',
+            description: `<p>A Kilt Measurement appointment is focused on gathering the accurate sizes needed for your outfit. You won’t be trying on the full ensemble at this stage — this session is purely for fitting and confirming your measurements.</p><p>During your appointment, we’ll size your kilt using a sample garment, fit a jacket and waistcoat to determine the best match, and check your shoe size. These items may not reflect your final tartan, colour, or style — they’re used only to ensure an accurate fit.</p><p>If you’d like to see the full outfit together, we can arrange a separate <strong>Full Try On</strong> once your measurements have been taken. This allows us to prepare the correct sizes and your chosen tartan in advance.</p>`
+          })">i</button>
+                            </h4>
                         </div>
                         <div class="party-type-row">
                             <div class="half-width-group">
@@ -128,15 +134,22 @@
                             </div>
                         </div>
                         <button class="section-action" @click="
-                                form.partyAppointments.initial.adults = form.adults;
-                                form.partyAppointments.initial.children = form.children;">Everyone in Initial
-                            Measurements</button>
+        form.partyAppointments.initial.adults = form.adults;
+        form.partyAppointments.initial.children = form.children;">
+                            Everyone in Initial Measurements
+                        </button>
                     </div>
 
                     <!-- REMEASURES -->
                     <div class="section">
                         <div class="section-header">
-                            <h4 class="section-title">REMEASURES</h4>
+                            <h4 class="section-title">
+                                REMEASURES
+                                <button class="info-btn-sm" @click="showInfo({
+            label: 'Remeasures',
+            description: `<p>A Remeasure appointment is designed to double‑check your measurements and ensure your hire outfit will fit comfortably and correctly for your event. You won’t be trying on the full outfit at this stage — this session is focused solely on confirming sizing.</p><p>During your fitting, we’ll remeasure you using our standard process. You’ll be sized for your kilt using a sample garment, try on a jacket and waistcoat to confirm fit, and check your shoe size. These items may not match your final tartan, colour, or style — they’re used only to verify accurate measurements.</p><p>  If you’d prefer to try on the full outfit during this visit, we can convert your booking into a <strong>Full Try On</strong> appointment. Just reply to your confirmation email and we’ll update it for you.</p>.`
+          })">i</button>
+                            </h4>
                         </div>
                         <div class="party-type-row">
                             <div class="half-width-group">
@@ -155,20 +168,28 @@
                             </div>
                         </div>
                         <button class="section-action" @click="
-                                form.partyAppointments.remeasure.adults = form.adults;
-                                form.partyAppointments.remeasure.children = form.children;">Everyone in
-                            Remeasures</button>
+        form.partyAppointments.remeasure.adults = form.adults;
+        form.partyAppointments.remeasure.children = form.children;">
+                            Everyone in Remeasures
+                        </button>
                     </div>
 
                     <!-- FULL TRY ON -->
                     <div class="section">
                         <div class="section-header">
-                            <h4 class="section-title">FULL TRY ONS</h4>
+                            <h4 class="section-title">
+                                FULL TRY ONS
+                                <button class="info-btn-sm" @click="showInfo({
+            label: 'Full Try Ons',
+            description: `<p>A Full Try On appointment lets you try on the complete outfit exactly as you’ll wear it on the day of your event. It’s the ideal way to see how everything looks and feels together and to make sure the fit is just right.</p><p>This service is only available once you’ve already had an <strong>Initial Measurement</strong> appointment, as we use your confirmed sizes to prepare the correct items in advance.</p><p>  During your visit, you’ll try on the full outfit — including your kilt, jacket and waistcoat, shirt, shoes, and accessories — and we’ll check the fit and make any adjustments needed.</p><p>If this is your first visit to Slanj, please select <strong>Initial Measurement</strong> instead.</p>`
+          })">i</button>
+                            </h4>
                         </div>
                         <div class="party-type-row">
                             <div class="half-width-group">
                                 <div class="input-with-info">
-                                    <label>Adults</label> <input type="number" min="0"
+                                    <label>Adults</label>
+                                    <input type="number" min="0"
                                         x-model.number="form.partyAppointments.fullTryOn.adults"
                                         @input="checkFullTryOnLimit('adults')" />
                                 </div>
