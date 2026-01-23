@@ -1,7 +1,7 @@
 .wizard-container {
   max-width: 600px;
-  margin: 2rem auto;
-  padding: 1rem 1rem 6rem 1rem;
+  margin: 0 auto;
+  padding: 1rem 0.5rem 6rem 0.5rem;
   font-family: "Inter", sans-serif;
 }
 
@@ -13,7 +13,7 @@
     border: 1px solid #000;
     border-radius: 8px;
     box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    padding: 2rem;
+    padding: 1rem;
     transition: 0.2s ease;
     display: flex;
     flex-direction: column;
@@ -66,40 +66,43 @@
 }
 
 .button-group-wrapper {
-  width:100%;
   position: fixed;
   bottom: 1rem;
   left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  pointer-events: none;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  z-index: 1000;
 }
 
 .button-group {
-  pointer-events: auto;
-  width: 100%;
   max-width: 600px;
+  margin: 0 auto;
   padding: 1rem;
   box-sizing: border-box;
   background: #dddddda8;
   border: 1px solid #000;
   border-radius: 8px;
   box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  transition: 0.2s ease;
   display: flex;
   justify-content: space-between;
 }
 
 .back-btn,
 .submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 25%;
+  height: 48px;
   padding: 0.8rem 1.2rem;
+  font-size: 1rem;
   background: #007bff;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .confirm-overlay {
@@ -219,7 +222,6 @@
   display: block;
   width: 100%;
   padding: 1rem;
-  margin: 0.5rem 0;
   font-size: 1rem;
   border: 1px solid #000;
   border-radius: 6px;
@@ -246,7 +248,6 @@
 }
 
 .date-time-container {
-  margin: 0 auto;
   padding: 1rem;
   align-items: center;
   font-size: 1rem;
@@ -257,7 +258,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .final-form .form-field {
@@ -283,7 +285,7 @@
 }
 
 .section-title {
-  margin: 0.25rem 0;
+  margin: 0.5rem 0;
   text-align: center;
 }
 
@@ -302,15 +304,24 @@
 .party-type-row {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .half-width-group {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+}
+
+@media (max-width: 600px) {
+  .party-type-row {
+    flex-direction: column;
+  }
+
+  .half-width-group {
+    width: 100%;
+  }
 }
 
 .party-type-row label {
@@ -326,12 +337,13 @@
 
 .input-with-info input {
   flex: 1;
+  min-width: 0;
   height: 32px;
   padding: 0 0.5rem;
   font-size: 1rem;
   border: 1px solid #000;
   border-radius: 6px;
-  width: 80px;
+  box-sizing: border-box;
 }
 
 .input-with-info .info-btn{
@@ -362,7 +374,7 @@
 
 .date-time-row label {
   display: inline-block;
-  width: 100px; 
+  width: 130px; 
 }
 
 .buy-item-row {
@@ -412,20 +424,6 @@
   max-width: 600px;
   margin: 0 auto;
   gap: 1rem;
-}
-
-.button-group .submit-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 48px; /* match SVG container height */
-  padding: 0 1rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
 }
 
 .button-group .submit-btn svg {

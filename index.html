@@ -189,7 +189,7 @@
                             <div class="half-width-group">
                                 <div class="input-with-info">
                                     <label>Adults</label>
-                                    <input type="number" min="0"
+                                    <input type="number" class="date-time-input" min="0"
                                         x-model.number="form.partyAppointments.fullTryOn.adults"
                                         @input="checkFullTryOnLimit('adults')" />
                                 </div>
@@ -347,7 +347,7 @@
             <div class="button-group-wrapper">
                 <div class="button-group"
                     x-show="!formSubmitted && history.length > 0 && !infoModal.visible && !confirmBox.visible">
-                    <button class="back-btn" @click="back()">← Back</button>
+                    <button class="back-btn" @click="back()">Back ←</button>
                     <template x-if="['number','multi-number','custom-multi-number','datetime'].includes(current.type)">
                         <button class="submit-btn" :disabled="
                                 (current.type === 'custom-multi-number' && !partyAppointmentsMatch) ||
