@@ -1,0 +1,1459 @@
+<!-- Slanj Appointment Wizard (single-file for Squarespace Code Block) -->
+<div class="slanj-appointment-wizard-embed">
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:wght@300..800&display=swap");
+
+    .wizard-container {
+      max-width: 600px;
+      margin: 1rem auto;
+      padding: 1rem 1rem 6rem 1rem;
+      font-family: "Inter", sans-serif;
+    }
+
+    /* Card styling */
+    .wizard-card {
+      width: 100%;
+      box-sizing: border-box;
+      background: #dddddda8;
+      border: 1px solid #000;
+      border-radius: 8px;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      padding: 1rem;
+      transition: 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .wizard-page-title,
+    .info-box-title {
+      margin: 0.5rem 0;
+      font-size: 1.3rem;
+      padding: 0.5rem;
+      color: #000;
+      text-align: center;
+      border: 1px solid #000;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .question-text {
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin: 0.5rem 0;
+      text-align: center;
+    }
+
+    .subtext {
+      margin-top: 0rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    .answer-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      margin: 0.25rem 0;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .answer-btn:hover {
+      background: #007bffab;
+    }
+
+    .button-group-wrapper {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 600px;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
+
+    .button-group {
+      pointer-events: auto;
+      width: 100%;
+      max-width: 600px;
+      padding: 1rem;
+      box-sizing: border-box;
+      background: #dddddda8;
+      border: 1px solid #000;
+      border-radius: 8px;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      transition: 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .back-btn,
+    .submit-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 25%;
+      height: 48px;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .confirm-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .confirm-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .confirm-box-button {
+      display: inline-block;
+      width: 40%;
+      padding: 0.5rem;
+      margin: 0.5rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .answer-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .info-btn {
+      background: #007bff;
+      color: white;
+      margin-top: 0rem;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem;
+      width: 8%;
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .info-btn:hover {
+      background: #007bffab;
+    }
+
+    .info-btn-sm {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      padding: 0.5rem;
+      border: none;
+      background: #007bff;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .info-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .info-box {
+      background: #dddddd;
+      padding: 1.5rem;
+      border-radius: 8px;
+      max-width: 600px;
+      width: 90%;
+    }
+
+    .info-box-content,
+    .confirm-box-content {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .info-box-button {
+      display: block;
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 1rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .date-time-input {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #000;
+      border-radius: 6px;
+      background: #fff;
+      box-sizing: border-box;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .textarea {
+      font-family: "Inter", sans-serif;
+      width: 100%;
+    }
+
+    .date-time-input:hover,
+    .date-time-input:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    }
+
+    .multi-number-row label {
+      width: 120px;
+      text-align: right;
+    }
+
+    .date-time-container {
+      padding: 1rem;
+      align-items: center;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .date-time-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .final-form .form-field {
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .success-message {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .section {
+      box-sizing: border-box;
+      background: #fff;
+      border: 1px solid #000;
+      border-radius: 8px;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      transition: 0.2s ease;
+    }
+
+    .section-title {
+      margin: 0.5rem 0;
+      text-align: center;
+    }
+
+    .section-action {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .party-type-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .half-width-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (max-width: 600px) {
+      .party-type-row {
+        flex-direction: column;
+      }
+
+      .half-width-group {
+        width: 100%;
+      }
+    }
+
+    .party-type-row label {
+      width: 80px;
+      text-align: right;
+    }
+
+    .input-with-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .input-with-info input {
+      flex: 1;
+      min-width: 0;
+      height: 32px;
+      padding: 0 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #000;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    .input-with-info .info-btn {
+      height: 32px;
+      width: 32px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .alert-message p {
+      color: rgb(189, 0, 0);
+      text-align: center;
+      margin: 0.5rem 0rem;
+    }
+
+    .disabled-btn {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .date-time-row label {
+      display: inline-block;
+      width: 130px;
+    }
+
+    .buy-item-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .buy-item-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .buy-item-top label {
+      width: 100px;
+      font-weight: 500;
+    }
+
+    .buy-item-details {
+      width: 100%;
+    }
+
+    .home-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
+
+    .confirmation-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #f8f8f8;
+      padding: 1rem;
+      z-index: 100;
+    }
+
+    .confirmation-footer .button-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 600px;
+      margin: 0 auto;
+      gap: 1rem;
+    }
+
+    .button-group .submit-btn svg {
+      height: 24px;
+      width: 24px;
+    }
+
+    .submit-btn:hover,
+    .submit-btn:focus {
+      background-color: #0056b3;
+    }
+  </style>
+
+  <div id="slanj-appointment-wizard" x-data="appointmentWizard()">
+
+    <!-- DEBUG (hidden) -->
+    <div x-show="false">
+      <div style="background:#eef;padding:10px;margin:10px 0;">
+        <strong>FULL DATA DEBUG:</strong>
+        <pre x-text="JSON.stringify(form, null, 2)"></pre>
+      </div>
+
+      <div style="background:#eee;padding:10px;margin:10px 0;">
+        <strong>DEBUG:</strong>
+        <div>currentId: <span x-text="currentId"></span></div>
+        <div>current.type: <span x-text="current?.type"></span></div>
+        <div>questionText: <span x-text="current?.questionText"></span></div>
+      </div>
+    </div>
+
+    <div class="wizard-container">
+
+      <!-- STEP: ANSWERS -->
+      <template x-if="!isFinal && !current.type">
+        <div class="wizard-card">
+          <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
+          <h2 class="question-text" x-text="current.questionText"></h2>
+          <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+
+          <div class="answers">
+            <template x-for="answer in current.answers">
+              <div class="answer-row">
+                <button class="answer-btn" @click="handleAnswer(answer)">
+                  <span x-text="answer.label"></span>
+                </button>
+
+                <button class="info-btn" x-show="answer.description" @click="showInfo(answer)">
+                  i
+                </button>
+              </div>
+            </template>
+          </div>
+        </div>
+      </template>
+
+      <!-- STEP: NUMBER -->
+      <template x-if="current.type === 'number'">
+        <div class="wizard-card">
+          <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
+          <h2 class="question-text" x-text="current.questionText"></h2>
+          <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+          <input type="number" min="0" x-model.number="form[current.model]" class="date-time-input" />
+        </div>
+      </template>
+
+      <!-- STEP: MULTI-NUMBER -->
+      <template x-if="current.type === 'multi-number'">
+        <div class="wizard-card">
+          <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
+          <h2 class="question-text" x-text="current.questionText"></h2>
+
+          <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+
+          <template x-for="field in current.fields">
+            <div class="date-time-row multi-number-row">
+              <label x-text="field.label"></label>
+
+              <input type="number" min="0" x-model.number="form[field.model]" class="date-time-input" />
+
+              <button class="info-btn" x-show="field.description" @click="showInfo({
+                                        label: field.label,
+                                        description: field.description
+                                    })">
+                i
+              </button>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- STEP: CUSTOM MULTI-NUMBER -->
+      <template x-if="current.type === 'custom-multi-number'">
+        <div class="wizard-card">
+          <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
+          <h2 class="question-text" x-text="current.questionText"></h2>
+          <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+
+          <div x-show="!partyAppointmentsMatch" class="alert-message">
+            <p>You have requested <strong x-text="form.adults"></strong> adult measurements and
+              <strong x-text="form.children"></strong> child measurements.
+            </p>
+            <p>Please assign the correct number of appointment types to continue.</p>
+          </div>
+
+          <!-- INITIAL -->
+          <div class="section">
+            <div class="section-header">
+              <h4 class="section-title">
+                INITIAL MEASUREMENTS
+                <button class="info-btn-sm" @click="showInfo({
+            label: 'Initial Measurements',
+            description: `<p>A Kilt Measurement appointment is focused on gathering the accurate sizes needed for your outfit. You won’t be trying on the full ensemble at this stage — this session is purely for fitting and confirming your measurements.</p><p>During your appointment, we’ll size your kilt using a sample garment, fit a jacket and waistcoat to determine the best match, and check your shoe size. These items may not reflect your final tartan, colour, or style — they’re used only to ensure an accurate fit.</p><p>If you’d like to see the full outfit together, we can arrange a separate <strong>Full Try On</strong> once your measurements have been taken. This allows us to prepare the correct sizes and your chosen tartan in advance.</p>`
+          })">i</button>
+              </h4>
+            </div>
+            <div class="party-type-row">
+              <div class="half-width-group">
+                <div class="input-with-info">
+                  <label>Adults</label>
+                  <input class="date-time-input" type="number" min="0"
+                    x-model.number="form.partyAppointments.initial.adults" />
+                </div>
+              </div>
+              <div class="half-width-group">
+                <div class="input-with-info">
+                  <label>Children</label>
+                  <input class="date-time-input" type="number" min="0"
+                    x-model.number="form.partyAppointments.initial.children" />
+                </div>
+              </div>
+            </div>
+            <button class="section-action" @click="
+        form.partyAppointments.initial.adults = form.adults;
+        form.partyAppointments.initial.children = form.children;">
+              Everyone in Initial Measurements
+            </button>
+          </div>
+
+          <!-- REMEASURES -->
+          <div class="section">
+            <div class="section-header">
+              <h4 class="section-title">
+                REMEASURES
+                <button class="info-btn-sm" @click="showInfo({
+            label: 'Remeasures',
+            description: `<p>A Remeasure appointment is designed to double-check your measurements and ensure your hire outfit will fit comfortably and correctly for your event. You won’t be trying on the full outfit at this stage — this session is focused solely on confirming sizing.</p><p>During your fitting, we’ll remeasure you using our standard process. You’ll be sized for your kilt using a sample garment, try on a jacket and waistcoat to confirm fit, and check your shoe size. These items may not match your final tartan, colour, or style — they’re used only to verify accurate measurements.</p><p>  If you’d prefer to try on the full outfit during this visit, we can convert your booking into a <strong>Full Try On</strong> appointment. Just reply to your confirmation email and we’ll update it for you.</p>.`
+          })">i</button>
+              </h4>
+            </div>
+            <div class="party-type-row">
+              <div class="half-width-group">
+                <div class="input-with-info">
+                  <label>Adults</label>
+                  <input class="date-time-input" type="number" min="0"
+                    x-model.number="form.partyAppointments.remeasure.adults" />
+                </div>
+              </div>
+              <div class="half-width-group">
+                <div class="input-with-info">
+                  <label>Children</label>
+                  <input type="number" min="0"
+                    x-model.number="form.partyAppointments.remeasure.children" />
+                </div>
+              </div>
+            </div>
+            <button class="section-action" @click="
+        form.partyAppointments.remeasure.adults = form.adults;
+        form.partyAppointments.remeasure.children = form.children;">
+              Everyone in Remeasures
+            </button>
+          </div>
+
+          <!-- FULL TRY ON -->
+          <div class="section">
+            <div class="section-header">
+              <h4 class="section-title">
+                FULL TRY ONS
+                <button class="info-btn-sm" @click="showInfo({
+            label: 'Full Try Ons',
+            description: `<p>A Full Try On appointment lets you try on the complete outfit exactly as you’ll wear it on the day of your event. It’s the ideal way to see how everything looks and feels together and to make sure the fit is just right.</p><p>This service is only available once you’ve already had an <strong>Initial Measurement</strong> appointment, as we use your confirmed sizes to prepare the correct items in advance.</p><p>  During your visit, you’ll try on the full outfit — including your kilt, jacket and waistcoat, shirt, shoes, and accessories — and we’ll check the fit and make any adjustments needed.</p><p>If this is your first visit to Slanj, please select <strong>Initial Measurement</strong> instead.</p>`
+          })">i</button>
+              </h4>
+            </div>
+            <div class="party-type-row">
+              <div class="half-width-group">
+                <div class="input-with-info">
+                  <label>Adults</label>
+                  <input type="number" class="date-time-input" min="0"
+                    x-model.number="form.partyAppointments.fullTryOn.adults"
+                    @input="checkFullTryOnLimit('adults')" />
+                </div>
+              </div>
+              <div class="half-width-group">
+                <div class="input-with-info">
+                  <label>Children</label>
+                  <input type="number" min="0"
+                    x-model.number="form.partyAppointments.fullTryOn.children"
+                    @input="checkFullTryOnLimit('children')" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- STEP: BUY MULTI -->
+      <template x-if="current.type === 'buy-multi' && form.buyItems.length === form.buyCount">
+        <div class="wizard-card">
+          <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
+          <h2 class="question-text" x-text="current.questionText"></h2>
+          <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+
+          <template x-for="i in form.buyCount" :key="i">
+            <div class="buy-item-row">
+              <div class="buy-item-top">
+                <label>Person <span x-text="i"></span></label>
+                <select class="date-time-input" x-model="form.buyItems[i - 1].type"
+                  @change="ensureBuyItem(i - 1)">
+                  <option value="">Select an item</option>
+                  <option value="kilt">Kilt only</option>
+                  <option value="outfit">Kilt outfit</option>
+                  <option value="great_kilt">Great kilt</option>
+                  <option value="trousers">Trousers</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div x-show="form.buyItems[i - 1]?.type === 'other'" class="buy-item-details">
+                <textarea x-model="form.buyItems[i - 1].details" placeholder="Please describe the item"
+                  class="date-time-input"></textarea>
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- STEP: FINAL FORM -->
+      <template x-if="isFinal && !formSubmitted">
+        <div class="wizard-card">
+          <h2 class="wizard-page-title">Contact Details</h2>
+          <p class="question-text">Please fill in your contact details.</p>
+          <p class="subtext">Once submitted, we will contact you to confirm your appointment.</p>
+
+          <form @submit.prevent="submitForm" class="final-form" x-ref="finalForm">
+
+            <div class="date-time-row">
+              <label>Name</label>
+              <input class="date-time-input" type="text" x-model="form.name" required />
+            </div>
+
+            <div class="date-time-row">
+              <label>Email</label>
+              <input class="date-time-input" type="email" x-model="form.email" required />
+            </div>
+
+            <div class="date-time-row">
+              <label>Phone</label>
+              <input class="date-time-input" type="text" x-model="form.phone" />
+            </div>
+
+            <div class="date-time-row">
+              <label>Comments</label>
+              <textarea class="date-time-input" x-model="form.notes"></textarea>
+            </div>
+          </form>
+        </div>
+      </template>
+
+      <!-- STEP: SUCCESS -->
+      <template x-if="formSubmitted">
+        <div class="wizard-card success-message">
+          <h2>Thank you!</h2>
+          <p>Your message has been sent successfully.</p>
+        </div>
+      </template>
+
+      <!-- STEP: DATE & TIME -->
+      <template x-if="current.type === 'datetime'">
+        <div class="wizard-card">
+          <h2 class="wizard-page-title" x-text="current.pageTitle"></h2>
+          <h2 class="question-text" x-text="current.questionText"></h2>
+          <p class="subtext" x-show="current.subtext" x-html="current.subtext"></p>
+          <div class="alert-message">
+            <p x-show="isDukeSunday">Our Duke Street store is closed on Sundays.</p>
+          </div>
+
+          <div class="date-time-container">
+
+            <div class="date-time-row">
+              <label>Date</label>
+              <input type="date" class="date-time-input" x-model="form.date"
+                :min="new Date().toISOString().split('T')[0]" />
+            </div>
+
+            <template x-if="form.date && !(form.branch === 'DUK' && selectedDay === 0)">
+              <div class="date-time-row">
+                <label>Time</label>
+                <select class="date-time-input" x-model="form.time">
+                  <option value="">Select a time</option>
+                  <template x-for="slot in availableTimes" :key="slot">
+                    <option :value="slot" x-text="slot"></option>
+                  </template>
+                </select>
+              </div>
+            </template>
+          </div>
+        </div>
+      </template>
+
+      <!-- CONFIRM BOX -->
+      <div x-show="confirmBox.visible" class="confirm-overlay">
+        <div class="confirm-box">
+
+          <template x-if="confirmBox.mapUrl">
+            <iframe :src="confirmBox.mapUrl" width="100%" height="300"
+              style="border:0; margin-bottom: 1rem;" allowfullscreen="" loading="lazy"></iframe>
+          </template>
+
+          <p x-html="confirmBox.message"></p>
+
+          <div x-show="confirmBox.mode === 'alert'">
+            <button @click="confirmBox.visible = false">OK</button>
+          </div>
+
+          <div x-show="confirmBox.mode === 'confirm'">
+            <button class="confirm-box-button" @click="confirmYes">Yes</button>
+            <button class="confirm-box-button" @click="confirmNo">No</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- INFO MODAL -->
+      <div x-show="infoModal.visible" class="info-overlay">
+        <div class="info-box">
+          <h3 class="info-box-title" x-text="infoModal.title"></h3>
+          <div class="info-box-content" x-html="infoModal.html"></div>
+          <button class="info-box-button" @click="infoModal.visible = false">Close</button>
+        </div>
+      </div>
+
+      <!-- FIXED BACK BUTTON -->
+      <div class="button-group-wrapper">
+        <div class="button-group"
+          x-show="!formSubmitted && history.length > 0 && !infoModal.visible && !confirmBox.visible">
+          <button class="back-btn" @click="back()">Back ←</button>
+          <template x-if="['number','multi-number','custom-multi-number','datetime'].includes(current.type)">
+            <button class="submit-btn" :disabled="
+                                (current.type === 'custom-multi-number' && !partyAppointmentsMatch) ||
+                                (current.type === 'datetime' && !dateTimeComplete)
+                            " :class="{
+                                'disabled-btn':
+                                    (current.type === 'custom-multi-number' && !partyAppointmentsMatch) ||
+                                    (current.type === 'datetime' && !dateTimeComplete)
+                            }" @click="
+                                (
+                                    (current.type === 'custom-multi-number' && partyAppointmentsMatch) ||
+                                    (current.type === 'datetime' && dateTimeComplete) ||
+                                    (current.type !== 'custom-multi-number' && current.type !== 'datetime')
+                                ) && next(current.next)
+                            ">
+              Next →
+            </button>
+          </template>
+          <template x-if="isFinal && !formSubmitted">
+            <button class="submit-btn" :disabled="!finalFormComplete"
+              :class="{ 'disabled-btn': !finalFormComplete }"
+              @click="finalFormComplete && $refs.finalForm.requestSubmit()">
+              Send Enquiry
+            </button>
+          </template>
+          <template x-if="current.type === 'buy-multi' && form.buyItems.length === form.buyCount">
+            <button class="submit-btn" :disabled="!buyItemsComplete"
+              :class="{ 'disabled-btn': !buyItemsComplete }"
+              @click="buyItemsComplete && next(current.next)">
+              Next
+            </button>
+          </template>
+        </div>
+      </div>
+      <template x-if="formSubmitted">
+        <div class="confirmation-footer">
+          <div class="button-group">
+            <button class="submit-btn" @click="resetFormAndStart()">Submit Another</button>
+
+            <a href="https://www.slanjkilts.com" class="submit-btn home-btn" rel="noopener">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                viewBox="0 0 24 24">
+                <path d="M3 9.75L12 3l9 6.75V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V9.75z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+
+  <script>
+    const questions = {
+
+        // START PAGE //
+        start: {
+            id: "start",
+            pageTitle: "Appointment Type",
+            questionText: "Please select the type of appointment you require",
+            subtext: "Hire, Purchase or a combination of both?",
+            answers: [
+            { label: "Hire", next: "hire_type", mode: "hire" },
+            { label: "Purchase", next: "buy_start", mode: "buy" },
+            { label: "Purchase & Hire", next: "buy_start", mode: "combo" }
+            ]
+        },
+        // HIRING PATH //
+
+        // TYPE OF APPOINTMENT //
+        hire_type: {
+            id: "hire_type",
+            pageTitle: "Hire Appointment",
+            questionText: "Please select the type of hire appointment you require",
+            subtext: "Click the ℹ️ for a description of what each hire type involves.",
+            answers: [
+            { 
+                label: "Consultation", 
+                next: "branch_selection", 
+                hireType: "consultation", 
+                description: "<p>A Consultation is a 20-minute appointment where you can explore our outfit options, compare tartans, discuss prices,and get guidance from our team.</p><p>You’ll browse jacket styles, tartans, shoes, and accessories, and ask any questions about building your ideal look.</p><p>This session is mainly for choosing your style, so trying items on isn’t guaranteed. If time allows, a quick measurement may be offered, but accurate sizing is done during a dedicated <strong>Kilt Measurement</strong> appointment.</p><p>After that, we can arrange a <strong>Full Try On</strong> so you can try the full outfit in your chosen tartan and size.</p>"
+            },
+            { 
+                label: "Measurement", 
+                next: "measurement_quantity", 
+                hireType: "measurement",
+                description: "<p>A Measurement appointment is focused on taking the accurate sizes needed for your kilt hire outfit.</p><p>You’ll be able to choose from three types of appointment — an <strong>Initial Measurement</strong>, a <strong>Remeasure</strong>, or a <strong>Full Try On</strong> — depending on what stage you’re at.</p><p>On the next two pages, you’ll see a full description of each option so you can select the one that suits you best.</p>"
+            }
+            ]
+        },
+
+        // HOW MANY PEOPLE NEED MEASURED //
+        measurement_quantity: {
+            id: "measurement_quantity",
+            pageTitle: "Measurement Quantity",
+            questionText: "How many people do you require measured?",
+            subtext: "There is no maximum number for group measurement appointments.",
+            answers: [
+            { label: "One person", next: "solo_age" },
+            { label: "Group of people", next: "party_numbers" }
+            ]
+        },
+
+        // SOLO APPOINTMENT PATH //
+        solo_age: {
+            id: "solo_age",
+            pageTitle: "Adult or Child?",
+            questionText: "Is the appointment for an adult or a child?",
+            subtext: "Click the ℹ️ for our definition of an adult and a child.",
+            answers: [
+            { 
+                label: "Adult", 
+                next: "solo_type", 
+                age: "adult",
+                description: "Adults are defined as 14 years of age and over."},
+            { label: "Child", 
+                next: "solo_type", 
+                age: "child", 
+                description: "Children are defined as under 14 years of age.</p><p>Our childrens hire prices are determined by the age of the child, not by the size of clothing they wear.</p>" }
+            ]
+        },
+
+        solo_type: {
+            id: "solo_type",
+            pageTitle: "Hire Appointment Type",
+            questionText: "Please select the type of hire appointment you require:",
+            subtext: "Please click the ℹ️ beside each option for a detailed description of what to expect at the appointment.",
+            answers: [
+            {
+                label: "Initial Measurement",
+                next: "branch_selection",
+                description: "<p>A Kilt Measurement appointment is focused on gathering the accurate sizes needed for your outfit. You won’t be trying on the full ensemble at this stage — this session is purely for fitting and confirming your measurements.</p><p>During your appointment, we’ll size your kilt using a sample garment, fit a jacket and waistcoat to determine the best match, and check your shoe size. These items may not reflect your final tartan, colour, or style — they’re used only to ensure an accurate fit.</p><p>If you’d like to see the full outfit together, we can arrange a separate <strong>Full Try On</strong> once your measurements have been taken. This allows us to prepare the correct sizes and your chosen tartan in advance.</p>"
+            },
+            {
+                label: "Remeasure",
+                next: "branch_selection",
+                description: "<p>A Remeasure appointment is designed to double-check your measurements and ensure your hire outfit will fit comfortably and correctly for your event. You won’t be trying on the full outfit at this stage — this session is focused solely on confirming sizing.</p><p>During your fitting, we’ll remeasure you using our standard process. You’ll be sized for your kilt using a sample garment, try on a jacket and waistcoat to confirm fit, and check your shoe size. These items may not match your final tartan, colour, or style — they’re used only to verify accurate measurements.</p><p>  If you’d prefer to try on the full outfit during this visit, we can convert your booking into a <strong>Full Try On</strong> appointment. Just reply to your confirmation email and we’ll update it for you.</p>.",
+                requiresPreviousMeasurement: true
+            },
+            {
+                label: "Full Try On",
+                next: "branch_selection",
+                description: "<p>A Full Try On appointment lets you try on the complete outfit exactly as you’ll wear it on the day of your event. It’s the ideal way to see how everything looks and feels together and to make sure the fit is just right.</p><p>This service is only available once you’ve already had an <strong>Initial Measurement</strong> appointment, as we use your confirmed sizes to prepare the correct items in advance.</p><p>  During your visit, you’ll try on the full outfit — including your kilt, jacket and waistcoat, shirt, shoes, and accessories — and we’ll check the fit and make any adjustments needed.</p><p>If this is your first visit to Slanj, please select <strong>Initial Measurement</strong> instead.</p>",
+                requiresPreviousMeasurement: true
+            }
+            ]
+        },
+
+        branch_selection: {
+            id: "branch_selection",
+            pageTitle: "Branch Selection",
+            questionText: "Which branch would you like to visit?",
+            subtext: "Click the ℹ️ beside each option to view branch location.",
+            answers: [
+            {
+                label: "St Enoch Square",
+                next: "date_time",
+                branchId: "STE",
+                description: `
+                <p>Our St Enoch Square branch is located at…</p>
+                <iframe
+                    src="https://www.google.com/maps?q=Slanj+Kilts+St+Enoch+Square+Glasgow&z=15&output=embed"
+                    width="100%"
+                    height="400"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy">
+                </iframe>
+                `
+            },
+            {
+                label: "Duke Street",
+                next: "date_time",
+                branchId: "DUK",
+                description: `
+                <p>Our Duke Street branch is located at…</p>
+                <iframe
+                    src="https://www.google.com/maps?q=Slanj+Kilts+Duke+Street+Glasgow&z=15&output=embed"
+                    width="100%"
+                    height="400"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy">
+                </iframe>
+                `
+            }
+            ]
+        },
+
+        date_time: {
+            id: "date_time",
+            pageTitle: "Appointment Date & Time",
+            type: "datetime",
+            questionText: "Please choose your preferred appointment date and time",
+            next: "final_branch"
+        },
+
+        final_branch: {
+            id: "final_branch",
+            questionText: "Please enter your details to complete your enquiry.",
+            answers: []
+        },
+
+        // GROUP APPOINTMENT PATH //
+
+        party_numbers: {
+            id: "party_numbers",
+            pageTitle: "Measurement Quantity",
+            type: "multi-number",
+            questionText: "How many adults and children need measured?",
+            subtext: "Please select the number of adults and children in your group.",
+            fields: [
+            { 
+                label: "Adults", 
+                model: "adults",
+                description: "Adults are defined as 14 years of age and over."},
+            { 
+                label: "Children",
+                model: "children",
+                description: "Children are defined as under 14 years of age.</p><p>Our childrens hire prices are determined by the age of the child, not by the size of clothing they wear." }
+            ],
+            next: "party_type"
+        },
+
+        party_type: {
+            id: "party_type",
+            pageTitle: "Hire Appointment Types",
+            type: "custom-multi-number",
+            questionText: "Please choose appointment types for each person.",
+            subtext: "The numbers must match the numbers in your group<br>Click the ℹ️ for a definition of each appointment type.",
+            next: "party_branch"
+        },
+
+        party_branch: {
+            id: "party_branch",
+            pageTitle: "Branch Selection",
+            questionText: "Which branch would you like to visit?",
+            subtext: "Click the ℹ️ beside each option to view branch location.",
+            answers: [
+            {
+                label: "St Enoch Square",
+                next: "date_time",
+                branchId: "STE",
+                description: `
+                <p>Our St Enoch Square branch is located at…</p>
+                <iframe
+                    src="https://www.google.com/maps?q=Slanj+Kilts+St+Enoch+Square+Glasgow&z=15&output=embed"
+                    width="100%"
+                    height="400"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy">
+                </iframe>
+                `
+            },
+            {
+                label: "Duke Street",
+                next: "date_time",
+                branchId: "DUK",
+                description: `
+                <p>Our Duke Street branch is located at…</p>
+                <iframe
+                    src="https://www.google.com/maps?q=Slanj+Kilts+Duke+Street+Glasgow&z=15&output=embed"
+                    width="100%"
+                    height="400"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy">
+                </iframe>
+                `
+            }
+            ]
+        },
+
+        date_time: {
+            id: "date_time",
+            pageTitle: "Appointment Date & Time",
+            type: "datetime",
+            questionText: "Please select preferred appointment date and time",
+            subtext: "Our Duke Street store is closed on Sundays. Last appointment is 30 minutes before closing time.",
+            next: "final_branch"
+        },
+
+        // BUYING PATH //
+        buy_start: {
+            id: "buy_start",
+            pageTitle: "Purchase Quantity",
+            questionText: "How many people purchasing need measured?",
+            subtext: "Please include adults and children.",
+            type: "number",
+            model: "buyCount",
+            next: "buy_items"
+        },
+
+        buy_items: {
+            id: "buy_items",
+            pageTitle: "Purchase Items",
+            questionText: "What is each person buying?",
+            subtext: "Please select the items each person is purchasing.",
+            type: "buy-multi",
+            next: "branch_selection"
+        }
+        };
+    window.questions = questions;
+  </script>
+
+  <script>
+    function appointmentWizard() {
+      return {
+
+        /* -------------------------------------------------------
+         * STATE
+         * ----------------------------------------------------- */
+        currentId: "start",
+        history: [],
+
+        form: {
+          appointmentMode: "",
+          hireType: "",
+          name: "",
+          email: "",
+          phone: "",
+          notes: "",
+          adults: 0,
+          children: 0,
+          ageCategory: "",
+          appointmentType: "",
+          branch: "",
+          partyAppointments: {
+            initial: { adults: 0, children: 0 },
+            remeasure: { adults: 0, children: 0 },
+            fullTryOn: { adults: 0, children: 0 }
+          },
+          date: "",
+          time: "",
+          buyCount: 1,
+          buyItems: []
+        },
+
+        finalData: null,
+        pendingBranchKey: null,
+        formSubmitted: false,
+
+        confirmBox: {
+          visible: false,
+          message: "",
+          nextId: null,
+          mapUrl: null,
+          mode: "confirm"
+        },
+
+        /* -------------------------------------------------------
+         * GETTERS
+         * ----------------------------------------------------- */
+        get current() {
+          return questions[this.currentId];
+        },
+
+        get isFinal() {
+          return this.currentId.startsWith("final");
+        },
+
+        get partyAppointmentsMatch() {
+          const totalAdults =
+            this.form.partyAppointments.initial.adults +
+            this.form.partyAppointments.remeasure.adults +
+            this.form.partyAppointments.fullTryOn.adults;
+
+          const totalChildren =
+            this.form.partyAppointments.initial.children +
+            this.form.partyAppointments.remeasure.children +
+            this.form.partyAppointments.fullTryOn.children;
+
+          return (
+            totalAdults === this.form.adults &&
+            totalChildren === this.form.children
+          );
+        },
+
+        get availableTimes() {
+          if (!this.form.date || !this.form.branch) return [];
+
+          const day = new Date(this.form.date).getDay(); // 0 = Sunday
+          const branch = this.form.branch;
+
+          let start, end;
+
+          if (branch === "STE") {
+            if (day === 0) {
+              start = "11:00";
+              end = "15:30";
+            } else {
+              start = "09:30";
+              end = "17:00";
+            }
+          }
+
+          if (branch === "DUK") {
+            // Sunday = 0
+            if (day === 0) {
+              return []; // No times on Sunday
+            }
+
+            start = "09:30";
+            end = "16:00";
+          }
+
+          return this.generateTimeSlots(start, end, 15);
+        },
+
+        get selectedDay() {
+          if (!this.form.date) return null;
+          return new Date(this.form.date).getDay(); // 0 = Sunday
+        },
+
+        get dateTimeComplete() {
+          // Must have a date
+          if (!this.form.date) return false;
+
+          // If Duke St on Sunday → invalid, even if time is selected
+          const day = new Date(this.form.date).getDay();
+          if (this.form.branch === "DUK" && day === 0) return false;
+
+          // Must have a time AND availableTimes must not be empty
+          return this.form.time && this.availableTimes.length > 0;
+        },
+
+        get isDukeSunday() {
+          if (!this.form.date || this.form.branch !== "DUK") return false;
+          const day = new Date(this.form.date).getDay();
+          return day === 0;
+        },
+
+        get finalFormComplete() {
+          return (
+            this.form.name?.trim().length > 0 &&
+            this.form.email?.trim().length > 0 &&
+            this.form.phone?.trim().length > 0
+          );
+        },
+
+        resetFormAndStart() {
+          this.formSubmitted = false;
+          this.history = [];
+          this.currentId = "start"; // ← correct reset
+
+          this.form = {
+            appointmentMode: "",
+            hireType: "",
+            name: "",
+            email: "",
+            phone: "",
+            notes: "",
+            adults: 0,
+            children: 0,
+            ageCategory: "",
+            appointmentType: "",
+            branch: "",
+            partyAppointments: {
+              initial: { adults: 0, children: 0 },
+              remeasure: { adults: 0, children: 0 },
+              fullTryOn: { adults: 0, children: 0 }
+            },
+            date: "",
+            time: "",
+            buyCount: 1,
+            buyItems: []
+          };
+        },
+
+        /* -------------------------------------------------------
+         * CORE LOGIC
+         * ----------------------------------------------------- */
+
+        handleAnswer(answer) {
+          // Store any data the answer carries
+          this.captureAnswerData(answer);
+
+          // 1. Consultation confirmation
+          if (answer.hireType === "consultation") {
+            this.next(
+              answer.next,
+              "<p>This appointment is a consultation only, focused on giving you an overview of what we offer and helping you explore the different outfit styles, tartans, and options available.</p><p>No measurements will be taken during this session — it’s simply an opportunity to discuss your requirements, ask questions, and get guidance from our team before moving on to the next stage.</p><p>Please confirm that you are happy to proceed.</p>",
+              "confirm"
+            );
+            return;
+          }
+
+          // 2. Remeasure / Full Try-On confirmation
+          if (answer.requiresPreviousMeasurement) {
+            this.next(
+              answer.next,
+              "This service is only available if you have already been measured. Please confirm that you have been measured already.",
+              "confirm"
+            );
+            return;
+          }
+
+          // 3. Legacy confirm flag
+          if (answer.confirm) {
+            this.next(
+              answer.next,
+              "This service is only available if you have already been measured. Please confirm that you have been measured already.",
+              "confirm"
+            );
+            return;
+          }
+
+          // 4. Normal navigation
+          this.next(answer.next);
+        },
+
+        captureAnswerData(answer) {
+          if (answer.mode) {
+            this.form.appointmentMode = answer.mode;
+
+            if (answer.mode === "combo") {
+              this.form.appointmentType = "combo";
+            }
+          }
+
+          if (answer.hireType) this.form.hireType = answer.hireType;
+          if (answer.age) this.form.ageCategory = answer.age;
+          if (answer.type) this.form.appointmentType = answer.type;
+
+          if (answer.branchId) {
+            this.form.branch = answer.branchId;
+          }
+
+          if (answer.branch) {
+            this.form.branch = answer.branch;
+          }
+        },
+
+        next(nextId, confirmMessage = null, mode = "confirm") {
+          this.history.push(this.currentId);
+
+          if (confirmMessage) {
+            this.confirmBox = {
+              visible: true,
+              message: confirmMessage,
+              nextId,
+              mapUrl: null,
+              mode
+            };
+            return;
+          }
+
+          if (this.form.appointmentMode === "combo") {
+            if (this.currentId === "buy_items") {
+              nextId = "hire_type";
+            }
+          }
+
+          this.currentId = nextId;
+          if (nextId === "buy_items") {
+            this.initBuyItems();
+          }
+        },
+
+        back() {
+          if (this.history.length === 0) return;
+          this.currentId = this.history.pop();
+        },
+
+        async submitForm() {
+          try {
+            const response = await fetch(
+              "https://obibnblucftyzbtzequj.functions.supabase.co/send-appointment-enquiry",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(this.form)
+              }
+            );
+
+            if (!response.ok) throw new Error("Failed to send enquiry");
+
+            this.formSubmitted = true;
+          } catch (error) {
+            console.error(error);
+            alert("There was a problem sending your enquiry. Please try again.");
+          }
+        },
+
+        confirmYes() {
+          this.confirmBox.visible = false;
+          this.currentId = this.confirmBox.nextId;
+
+          if (this.currentId === "buy_items") {
+            this.initBuyItems();
+          }
+        },
+
+        confirmNo() {
+          this.confirmBox.visible = false;
+        },
+
+        checkFullTryOnLimit(group) {
+          const value = this.form.partyAppointments.fullTryOn[group];
+          if (value > 1) {
+            this.confirmBox = {
+              visible: true,
+              message:
+                "We only allow one full try on per party. Please adjust your selection.",
+              nextId: null,
+              mapUrl: null,
+              mode: "alert"
+            };
+            this.form.partyAppointments.fullTryOn[group] = 1;
+          }
+        },
+
+        generateTimeSlots(start, end, interval) {
+          const slots = [];
+          let [h, m] = start.split(":").map(Number);
+          const [endH, endM] = end.split(":").map(Number);
+
+          while (h < endH || (h === endH && m <= endM)) {
+            const hh = h.toString().padStart(2, "0");
+            const mm = m.toString().padStart(2, "0");
+            slots.push(`${hh}:${mm}`);
+
+            m += interval;
+            if (m >= 60) {
+              m -= 60;
+              h++;
+            }
+          }
+
+          return slots;
+        },
+
+        ensureBuyItem(index) {
+          if (!this.form.buyItems[index]) {
+            this.form.buyItems[index] = { type: "", details: "" };
+          }
+        },
+
+        get buyItemsComplete() {
+          if (!this.form.buyItems || this.form.buyItems.length < this.form.buyCount) return false;
+
+          return this.form.buyItems.every(item => {
+            if (!item.type) return false;
+            if (item.type === "other" && !item.details) return false;
+            return true;
+          });
+        },
+
+        initBuyItems() {
+          this.form.buyItems = Array.from({ length: this.form.buyCount }, () => ({
+            type: "",
+            details: ""
+          }));
+        },
+
+        infoModal: {
+          visible: false,
+          title: "",
+          html: ""
+        },
+
+        showInfo(answer) {
+          this.infoModal.title = answer.label;
+          this.infoModal.html = answer.description || "No additional information available.";
+          this.infoModal.visible = true;
+        }
+
+      };
+    }
+
+    window.appointmentWizard = appointmentWizard;
+  </script>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</div>
