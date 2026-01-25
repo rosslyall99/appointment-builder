@@ -3,17 +3,24 @@
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:wght@300..800&display=swap");
 
+    /* Alpine */
     [x-cloak] { display: none !important; }
 
-    .wizard-container {
+    /* Scope everything to this embed to avoid theme bleed */
+    .slanj-appointment-wizard-embed{
+      font-family: "Inter", sans-serif;
+    }
+
+    /* Layout container */
+    .slanj-appointment-wizard-embed .wizard-container{
       max-width: 600px;
       margin: 1rem auto;
-      padding-bottom: 1rem;
+      padding-bottom: 1rem; /* no longer needs space for fixed bottom bar */
       font-family: "Inter", sans-serif;
     }
 
     /* Card styling */
-    .wizard-card {
+    .slanj-appointment-wizard-embed .wizard-card{
       width: 100%;
       box-sizing: border-box;
       background: #dddddda8;
@@ -27,8 +34,8 @@
       justify-content: space-between;
     }
 
-    .wizard-page-title,
-    .info-box-title {
+    .slanj-appointment-wizard-embed .wizard-page-title,
+    .slanj-appointment-wizard-embed .info-box-title{
       margin: 0.5rem 0;
       font-size: 1.3rem;
       padding: 0.5rem;
@@ -39,28 +46,34 @@
       background: #fff;
     }
 
-    .question-text {
+    .slanj-appointment-wizard-embed .question-text{
       font-size: 1.3rem;
       font-weight: 400;
       margin: 0.5rem 0;
       text-align: center;
     }
 
-    .subtext {
-      margin-top: 0rem;
-      margin-bottom: 1rem;
+    .slanj-appointment-wizard-embed .subtext{
+      margin: 0 0 1rem;
       font-size: 1rem;
       font-weight: 400;
       text-align: center;
     }
 
-    .answer-btn {
+    /* Answers */
+    .slanj-appointment-wizard-embed .answer-row{
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .slanj-appointment-wizard-embed .answer-btn{
       display: block;
       width: 100%;
       padding: 1rem;
       margin: 0.25rem 0;
       background: #007bff;
-      color: white;
+      color: #fff;
       border: none;
       border-radius: 8px;
       font-size: 1.3rem;
@@ -68,103 +81,42 @@
       box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
 
-    .answer-btn:hover {
+    .slanj-appointment-wizard-embed .answer-btn:hover{
       background: #007bffab;
     }
 
-    .button-group-wrapper {
-      position: static;
-      bottom: auto;
-      left: auto;
-      transform: none;
-      width: 100%;
-      max-width: 600px;
-      box-sizing: border-box;
-      z-index: 1000;
-      margin: 2rem auto 0;
-      padding: 0;
-    }
-
-    .button-group {
-      pointer-events: auto;
-      width: 100%;
-      max-width: 600px;
-      padding: 1rem;
-      box-sizing: border-box;
-      background: #dddddda8;
-      border: 1px solid #000;
-      border-radius: 8px;
-      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
-      transition: 0.2s ease;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .back-btn,
-    .submit-btn {
+    /* Generic button styles */
+    .slanj-appointment-wizard-embed .back-btn,
+    .slanj-appointment-wizard-embed .submit-btn{
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 25%;
       height: 48px;
       padding: 0.8rem 1.2rem;
       font-size: 1rem;
       background: #007bff;
-      color: white;
+      color: #fff;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      text-decoration: none; /* helps when submit-btn is applied to <a> */
     }
 
-    .confirm-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+    .slanj-appointment-wizard-embed .submit-btn:hover,
+    .slanj-appointment-wizard-embed .submit-btn:focus{
+      background-color: #0056b3;
     }
 
-    @media (max-width: 600px){
-      .info-box,
-      .confirm-box{
-        padding: 1rem;
-      }
+    .slanj-appointment-wizard-embed .disabled-btn{
+      opacity: 0.4;
+      pointer-events: none;
     }
 
-    .confirm-box iframe{
-      max-height: 40vh;
-    }
-
-    .confirm-box-button {
-      display: inline-block;
-      width: 40%;
-      padding: 0.5rem;
-      margin: 0.5rem;
+    /* Info buttons */
+    .slanj-appointment-wizard-embed .info-btn{
       background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
-
-    .answer-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .info-btn {
-      background: #007bff;
-      color: white;
-      margin-top: 0rem;
+      color: #fff;
       border: none;
       border-radius: 8px;
       padding: 1rem;
@@ -178,11 +130,11 @@
       box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
 
-    .info-btn:hover {
+    .slanj-appointment-wizard-embed .info-btn:hover{
       background: #007bffab;
     }
 
-    .info-btn-sm {
+    .slanj-appointment-wizard-embed .info-btn-sm{
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -190,59 +142,49 @@
       padding: 0.5rem;
       border: none;
       background: #007bff;
-      color: white;
+      color: #fff;
       font-size: 18px;
       font-weight: bold;
       border-radius: 6px;
       cursor: pointer;
       line-height: 1;
+      flex: 0 0 auto;
+      white-space: nowrap;
     }
 
-    .info-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .info-box, 
-    .confirm-box {
-      background: #dddddd;
-      padding: 1.5rem;
-      border-radius: 8px;
-      max-width: 600px;
-      width: 80vw;
-      max-width: 600px;
-      max-height: 80vh;
-      overflow: auto;
-      box-sizing: border-box;
-    }
-
-    .info-box-content,
-    .confirm-box-content {
-      margin-top: 1rem;
-      font-size: 1.2rem;
-      text-align: center;
-    }
-
-    .info-box-button {
-      display: block;
+    /* Button group under cards (NOT fixed) */
+    .slanj-appointment-wizard-embed .button-group-wrapper{
+      position: static;
       width: 100%;
-      padding: 0.5rem;
-      margin-top: 1rem;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      max-width: 600px;
+      box-sizing: border-box;
+      margin: 2rem auto 0;
+      padding: 0;
     }
 
-    .date-time-input {
+    .slanj-appointment-wizard-embed .button-group{
+      pointer-events: auto;
+      width: 100%;
+      padding: 1rem;
+      box-sizing: border-box;
+      background: #dddddda8;
+      border: 1px solid #000;
+      border-radius: 8px;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      transition: 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* For the in-flow button group we keep your 25% sizing */
+    .slanj-appointment-wizard-embed .button-group-wrapper .back-btn,
+    .slanj-appointment-wizard-embed .button-group-wrapper .submit-btn{
+      width: 25%;
+    }
+
+    /* Inputs */
+    .slanj-appointment-wizard-embed .date-time-input{
       display: block;
       width: 100%;
       padding: 1rem;
@@ -254,31 +196,15 @@
       box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
 
-    .textarea {
-      font-family: "Inter", sans-serif;
-      width: 100%;
-    }
-
-    .date-time-input:hover,
-    .date-time-input:focus {
+    .slanj-appointment-wizard-embed .date-time-input:hover,
+    .slanj-appointment-wizard-embed .date-time-input:focus{
       border-color: #007bff;
       outline: none;
       box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
     }
 
-    .multi-number-row label {
-      width: 120px;
-      text-align: right;
-    }
-
-    .date-time-container {
-      padding: 1rem;
-      align-items: center;
-      font-size: 1rem;
-      text-align: center;
-    }
-
-    .date-time-row {
+    /* Make date + time controls match width inside flex rows */
+    .slanj-appointment-wizard-embed .date-time-row{
       display: flex;
       justify-content: center;
       align-items: center;
@@ -286,18 +212,38 @@
       margin-bottom: 0.5rem;
     }
 
-    .final-form .form-field {
-      margin-bottom: 1rem;
-      display: flex;
-      flex-direction: column;
+    .slanj-appointment-wizard-embed .date-time-row label{
+      flex: 0 0 80px; /* consistent */
+      text-align: right;
     }
 
-    .success-message {
+    .slanj-appointment-wizard-embed .date-time-row .date-time-input{
+      flex: 1 1 auto;
+      min-width: 0;
+      width: auto;
+    }
+
+    .slanj-appointment-wizard-embed select.date-time-input{
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .slanj-appointment-wizard-embed .date-time-container{
+      padding: 1rem;
+      align-items: center;
+      font-size: 1rem;
       text-align: center;
-      padding: 2rem 1rem;
     }
 
-    .section {
+    /* Multi-number rows */
+    .slanj-appointment-wizard-embed .multi-number-row label{
+      width: 120px;
+      text-align: right;
+    }
+
+    /* Sections (party type) */
+    .slanj-appointment-wizard-embed .section{
       box-sizing: border-box;
       background: #fff;
       border: 1px solid #000;
@@ -308,69 +254,49 @@
       transition: 0.2s ease;
     }
 
-    .section-title{
+    .slanj-appointment-wizard-embed .section-title{
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: center;
       gap: 0.5rem;
-      text-align: center;
+      text-align: left; /* keeps title left, info button right */
       font-size: 1.25rem;
       margin: 0.25rem 0.25rem 0.75rem 0.25rem;
     }
 
-    .section-title .info-btn-sm{
-      justify-self: end;
-      flex: 0 0 auto;
-      white-space: nowrap;
-    }
-
-    .section-action {
+    .slanj-appointment-wizard-embed .section-action{
       width: 100%;
       padding: 0.5rem 1rem;
       font-size: 1rem;
       background: #007bff;
-      color: white;
+      color: #fff;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
     }
 
-    .party-type-row {
+    /* Party appointment input layout */
+    .slanj-appointment-wizard-embed .party-type-row{
       display: flex;
       align-items: center;
       gap: 0.5rem;
       margin-bottom: 1rem;
     }
 
-    .half-width-group {
+    .slanj-appointment-wizard-embed .half-width-group{
       flex: 1;
       display: flex;
       flex-direction: column;
     }
 
-    @media (max-width: 600px) {
-      .party-type-row {
-        flex-direction: column;
-      }
-
-      .half-width-group {
-        width: 100%;
-      }
-    }
-
-    .party-type-row label {
-      width: 80px;
-      text-align: right;
-    }
-
-    .input-with-info {
+    .slanj-appointment-wizard-embed .input-with-info{
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .input-with-info input {
+    .slanj-appointment-wizard-embed .input-with-info input{
       flex: 1;
       min-width: 0;
       height: 32px;
@@ -381,110 +307,188 @@
       box-sizing: border-box;
     }
 
-    .input-with-info .info-btn {
+    .slanj-appointment-wizard-embed .input-with-info .info-btn{
       height: 32px;
       width: 32px;
-      background: #007bff;
-      color: white;
-      border: none;
       border-radius: 6px;
+      padding: 0;
       font-size: 1rem;
       font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
     }
 
-    .alert-message p {
+    @media (max-width: 600px){
+      .slanj-appointment-wizard-embed .party-type-row{
+        flex-direction: column;
+      }
+      .slanj-appointment-wizard-embed .half-width-group{
+        width: 100%;
+      }
+    }
+
+    /* Alerts + success */
+    .slanj-appointment-wizard-embed .alert-message p{
       color: rgb(189, 0, 0);
       text-align: center;
-      margin: 0.5rem 0rem;
+      margin: 0.5rem 0;
     }
 
-    .disabled-btn {
-      opacity: 0.4;
-      pointer-events: none;
+    .slanj-appointment-wizard-embed .success-message{
+      text-align: center;
+      padding: 2rem 1rem;
     }
 
-    .date-time-row label {
-      flex: 0 0 80px;
-    }
-
-    .date-time-row .date-time-input {
-      flex: 1 1 auto;    /* take remaining space */
-      min-width: 0;      /* IMPORTANT: allows flex items to shrink evenly */
-      width: auto;       /* override the 100% that can cause weirdness in flex */
-    }
-
-    select.date-time-input {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-    }
-
-    .buy-item-row {
+    /* Buy section */
+    .slanj-appointment-wizard-embed .buy-item-row{
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
       margin-bottom: 1rem;
     }
 
-    .buy-item-top {
+    .slanj-appointment-wizard-embed .buy-item-top{
       display: flex;
       align-items: center;
       gap: 1rem;
     }
 
-    .buy-item-top label {
+    .slanj-appointment-wizard-embed .buy-item-top label{
       width: 100px;
       font-weight: 500;
     }
 
-    .buy-item-details {
+    .slanj-appointment-wizard-embed .buy-item-details{
       width: 100%;
     }
 
-    .home-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      text-decoration: none;
-    }
-
-    .confirmation-footer {
+    /* Modals */
+    .slanj-appointment-wizard-embed .confirm-overlay,
+    .slanj-appointment-wizard-embed .info-overlay{
       position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #f8f8f8;
-      padding: 1rem;
-      z-index: 100;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
     }
 
-    .confirmation-footer .button-group {
+    .slanj-appointment-wizard-embed .info-box,
+    .slanj-appointment-wizard-embed .confirm-box{
+      background: #dddddd;
+      padding: 1.5rem;
+      border-radius: 8px;
+      width: 80vw;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+
+    .slanj-appointment-wizard-embed .confirm-box iframe{
+      max-height: 40vh;
+    }
+
+    .slanj-appointment-wizard-embed .info-box-content,
+    .slanj-appointment-wizard-embed .confirm-box-content{
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .slanj-appointment-wizard-embed .info-box-button{
+      display: block;
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 1rem;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .slanj-appointment-wizard-embed .confirm-box-button{
+      display: inline-block;
+      width: 40%;
+      padding: 0.5rem;
+      margin: 0.5rem;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    @media (max-width: 600px){
+      .slanj-appointment-wizard-embed .info-box,
+      .slanj-appointment-wizard-embed .confirm-box{
+        padding: 1rem;
+      }
+    }
+
+/* -------------------------------
+   THANK YOU FOOTER (fixed)
+-------------------------------- */
+    .slanj-appointment-wizard-embed .confirmation-footer{
+      position: static;      /* ← key change */
+      width: 100%;
+      padding: 0;
+      margin-top: 2rem;      /* space below the Thank You card */
+    }
+
+    /* Make it look like your normal button-group card */
+    .slanj-appointment-wizard-embed .confirmation-footer .button-group{
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;            /* equal left/right margin */
+      padding: 1rem;
+      box-sizing: border-box;
+
+      background: #dddddda8;
+      border: 1px solid #000;
+      border-radius: 8px;
+      box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 600px;
-      margin: 0 auto;
       gap: 1rem;
     }
 
-    .button-group .submit-btn svg {
-      height: 24px;
-      width: 24px;
+    /* Both buttons exactly 25% width */
+    .slanj-appointment-wizard-embed .confirmation-footer .submit-btn,
+    .slanj-appointment-wizard-embed .confirmation-footer .home-btn{
+      flex: 0 0 25%;
+      max-width: 25%;
+      height: 48px;
+      padding: 0.8rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      text-decoration: none;
     }
 
-    .submit-btn:hover,
-    .submit-btn:focus {
-      background-color: #0056b3;
+    /* Icon sizing */
+    .slanj-appointment-wizard-embed .confirmation-footer .home-btn{
+      padding: 0; /* keep icon button neat */
     }
 
-    .slanj-appointment-wizard-embed.modal-open { overflow: hidden; }
+    .slanj-appointment-wizard-embed .confirmation-footer .home-btn svg{
+      width: 22px !important;
+      height: 22px !important;
+    }
 
-  </style>
+    /* Modal-open helper */
+    .slanj-appointment-wizard-embed.modal-open{
+      overflow: hidden;
+    }
+</style>
+
 
   <div id="slanj-appointment-wizard" x-data="appointmentWizard()" x-cloak @keydown.escape.window="infoModal.visible=false; confirmBox.visible=false;">
 
