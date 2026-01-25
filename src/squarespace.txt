@@ -3,10 +3,12 @@
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Open+Sans:wght@300..800&display=swap");
 
+    [x-cloak] { display: none !important; }
+
     .wizard-container {
       max-width: 600px;
       margin: 1rem auto;
-      padding: 1rem 1rem 6rem 1rem;
+      padding-bottom: 1rem;
       font-family: "Inter", sans-serif;
     }
 
@@ -71,14 +73,16 @@
     }
 
     .button-group-wrapper {
-      position: fixed;
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
+      position: static;
+      bottom: auto;
+      left: auto;
+      transform: none;
       width: 100%;
       max-width: 600px;
       box-sizing: border-box;
       z-index: 1000;
+      margin: 2rem auto 0;
+      padding: 0;
     }
 
     .button-group {
@@ -123,16 +127,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
-    .confirm-box {
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      text-align: center;
-      width: 90%;
-      max-width: 600px;
-      margin: 0 auto;
+    @media (max-width: 600px){
+      .info-box,
+      .confirm-box{
+        padding: 1rem;
+      }
+    }
+
+    .confirm-box iframe{
+      max-height: 40vh;
     }
 
     .confirm-box-button {
@@ -199,14 +205,20 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
-    .info-box {
+    .info-box, 
+    .confirm-box {
       background: #dddddd;
       padding: 1.5rem;
       border-radius: 8px;
       max-width: 600px;
-      width: 90%;
+      width: 80vw;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow: auto;
+      box-sizing: border-box;
     }
 
     .info-box-content,
@@ -296,9 +308,20 @@
       transition: 0.2s ease;
     }
 
-    .section-title {
-      margin: 0.5rem 0;
+    .section-title{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 0.5rem;
       text-align: center;
+      font-size: 1.25rem;
+      margin: 0.25rem 0.25rem 0.75rem 0.25rem;
+    }
+
+    .section-title .info-btn-sm{
+      justify-self: end;
+      flex: 0 0 auto;
+      white-space: nowrap;
     }
 
     .section-action {
@@ -385,8 +408,19 @@
     }
 
     .date-time-row label {
-      display: inline-block;
-      width: 130px;
+      flex: 0 0 80px;
+    }
+
+    .date-time-row .date-time-input {
+      flex: 1 1 auto;    /* take remaining space */
+      min-width: 0;      /* IMPORTANT: allows flex items to shrink evenly */
+      width: auto;       /* override the 100% that can cause weirdness in flex */
+    }
+
+    select.date-time-input {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
 
     .buy-item-row {
@@ -447,9 +481,12 @@
     .submit-btn:focus {
       background-color: #0056b3;
     }
+
+    .slanj-appointment-wizard-embed.modal-open { overflow: hidden; }
+
   </style>
 
-  <div id="slanj-appointment-wizard" x-data="appointmentWizard()">
+  <div id="slanj-appointment-wizard" x-data="appointmentWizard()" x-cloak @keydown.escape.window="infoModal.visible=false; confirmBox.visible=false;">
 
     <!-- DEBUG (hidden) -->
     <div x-show="false">
@@ -746,7 +783,7 @@
       </template>
 
       <!-- CONFIRM BOX -->
-      <div x-show="confirmBox.visible" class="confirm-overlay">
+      <div x-show="confirmBox.visible" class="confirm-overlay" @click.self="confirmBox.visible=false">
         <div class="confirm-box">
 
           <template x-if="confirmBox.mapUrl">
@@ -769,7 +806,7 @@
       </div>
 
       <!-- INFO MODAL -->
-      <div x-show="infoModal.visible" class="info-overlay">
+      <div x-show="infoModal.visible" class="info-overlay" @click.self="infoModal.visible=false">
         <div class="info-box">
           <h3 class="info-box-title" x-text="infoModal.title"></h3>
           <div class="info-box-content" x-html="infoModal.html"></div>
@@ -1090,6 +1127,20 @@
   <script>
     function appointmentWizard() {
       return {
+
+        init() {
+          this.$watch('form.date', () => { this.form.time = ""; });
+          this.$watch('form.branch', () => { this.form.time = ""; this.form.date = ""; });
+          this.$watch('infoModal.visible', () => this.toggleModalClass());
+          this.$watch('confirmBox.visible', () => this.toggleModalClass());
+          this.toggleModalClass();
+        },
+
+        toggleModalClass() {
+          const open = this.infoModal.visible || this.confirmBox.visible;
+          const wrapper = document.querySelector('.slanj-appointment-wizard-embed');
+          if (wrapper) wrapper.classList.toggle('modal-open', open);
+        },
 
         /* -------------------------------------------------------
          * STATE
@@ -1455,5 +1506,13 @@
     window.appointmentWizard = appointmentWizard;
   </script>
 
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    if (!window.Alpine) {
+      var s = document.createElement('script');
+      s.defer = true;
+      s.src = "https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js";
+      document.head.appendChild(s);
+    }
+  </script>
+
 </div>
